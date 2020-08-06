@@ -23,21 +23,27 @@ import java.util.ArrayList;
  * @author Asus-ROG
  */
 public class Memoria {
-    private Proceso [] memoria;
+    private Cluster [] memoria;
     private int tamanoMemoria;
 
     public Memoria(int tamanoMemoria) {
-        this.memoria = new Proceso [tamanoMemoria];
+        this.memoria = new Cluster [tamanoMemoria];
         this.tamanoMemoria = tamanoMemoria;  
     }
 
-    public Proceso getProceso(int id) {
+    public Proceso getProceso(String nombre) {
+        Proceso proceso = null;
         for (int i = 0; i < this.tamanoMemoria; i++) 
-            if(this.memoria[i].getID()==id)
-                return this.memoria[i];                        
+        {
+            proceso = memoria[i].getProceso(nombre);
+            if(proceso!=null)
+                return proceso;        
+        }
+        System.out.println("Error: No existe el proceso '"+nombre+"'");
         return null;
+        
     }
-
+/*
     public ArrayList <Proceso> getProcesos(String nombre) {
         ArrayList <Proceso> aux = new ArrayList <>();
         for (int i = 0; i < this.tamanoMemoria; i++) 
@@ -47,14 +53,16 @@ public class Memoria {
             return null;         
         return aux;          
     }
+*/
     
     public boolean insertProceso(Proceso proceso) {
         for (int i = 0; i < this.tamanoMemoria; i++) {
-            if(this.memoria[i] == null){
-                this.memoria[i] = proceso; 
+            if(this.memoria[i].getEspacioDisponible()>proceso.getTamaño()){ // get tamaño libre
+                this.memoria[i].addProceso(proceso);
                 return true;
-            }             
+            }
         }
+        System.out.println("No hay espacio suficiente en la memoria");
         return false;
     }
 
@@ -65,15 +73,15 @@ public class Memoria {
     public boolean setTamanoMemoria(int tamanoMemoria, boolean reset) {
         if(reset){
             this.resetMemoria();
-            this.memoria = new Proceso [tamanoMemoria];
+            this.memoria = new Cluster [tamanoMemoria];
             this.tamanoMemoria = tamanoMemoria;
             return true;
         }
         if(tamanoMemoria >= this.tamanoMemoria){
             if(reset)
                 this.resetMemoria();                     
-            Proceso [] aux = this.memoria;
-            this.memoria = new Proceso [tamanoMemoria];
+            Cluster [] aux = this.memoria;
+            this.memoria = new Cluster [tamanoMemoria];
             System.arraycopy(aux, 0, this.memoria, 0, aux.length);
             this.tamanoMemoria = tamanoMemoria;
         }else{
@@ -83,7 +91,7 @@ public class Memoria {
     }
     
     public void resetMemoria() {
-        this.memoria = new Proceso [this.tamanoMemoria];        
+        this.memoria = new Cluster [this.tamanoMemoria];        
     }   
     
 }
