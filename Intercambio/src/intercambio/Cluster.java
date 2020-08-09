@@ -27,6 +27,7 @@ public class Cluster {
     private int tamaño;
     private int espacioDisponible;
     private ArrayList<Proceso> procesos = new ArrayList<Proceso>();
+    private boolean ocupado = false;
 
     public Cluster(int tamaño) {
         this.tamaño = tamaño;

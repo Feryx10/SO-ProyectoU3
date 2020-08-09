@@ -23,7 +23,8 @@ package intercambio;
 public class Proceso {
     private final int ID;    
     private final String nombrePrograma;
-    private int tamaño, tiempo;    
+    private boolean completado = false;
+    private int tamaño,tamañoFragmento, tiempo, cantidadFragmentos;    
 
     public Proceso(int ID, String nombrePrograma, int tamaño, int tiempo) {
         this.ID = ID;
@@ -31,7 +32,13 @@ public class Proceso {
         this.tamaño = tamaño;
         this.tiempo = tiempo;
     }
-
+    
+    public void calcularCantidadFragmentos()
+    {
+        int valor = (int) Math.ceil(tamaño/32);
+        this.cantidadFragmentos = valor;
+    }
+    
     public int getID() {
         return ID;
     }    
@@ -60,5 +67,30 @@ public class Proceso {
     public String toString() {
         return "Proceso{" + "ID=" + ID + ", nombrePrograma=" + nombrePrograma + ", tama\u00f1o=" + tamaño + '}';
     }
+
+    public boolean isCompletado() {
+        return completado;
+    }
+
+    public void setCompletado(boolean completado) {
+        this.completado = completado;
+    }
+
+    public int getTamañoFragmento() {
+        return tamañoFragmento;
+    }
+
+    public void setTamañoFragmento(int tamañoFragmento) {
+        this.tamañoFragmento = tamañoFragmento;
+    }
+
+    public int getCantidadFragmentos() {
+        return cantidadFragmentos;
+    }
+
+    public void setCantidadFragmentos(int cantidadFragmentos) {
+        this.cantidadFragmentos = cantidadFragmentos;
+    }
+    
            
 }

@@ -43,6 +43,13 @@ public class Memoria {
         return null;
         
     }
+    
+    public Cluster getCluster(int i)
+    {
+        return memoria[i];
+    }
+    
+    
 /*
     public ArrayList <Proceso> getProcesos(String nombre) {
         ArrayList <Proceso> aux = new ArrayList <>();
@@ -93,5 +100,7 @@ public class Memoria {
     public void resetMemoria() {
         this.memoria = new Cluster [this.tamanoMemoria];        
     }   
+
+    
     
 }
