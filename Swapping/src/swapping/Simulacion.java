@@ -71,11 +71,12 @@ public class Simulacion {
     {                                                         
         int primerCluster = -1;
         int clusters = 0;
+        System.out.println("Fragmentos proceso: "+proceso.getCantidadFragmentos());
         for (int i = 0; i < memoriaPrincipal.getTamanoMemoria(); i++) {
             
             if(memoriaPrincipal.getCluster(i).getEspacioDisponible()==256)//Ojo: tamaño estandar de un cluster 256mb
             {
-                System.out.println("llegue aqui");
+                
                 if(primerCluster==-1)
                 {
                     primerCluster=i;
@@ -83,12 +84,13 @@ public class Simulacion {
                 }
                 else
                     clusters+=1;
+                System.out.println("clusters: "+clusters +", primerCluster: "+ primerCluster);
                 if(clusters==proceso.getCantidadFragmentos())
                 {
                     System.out.println(proceso.getCantidadFragmentos());
                     for (int j = 0; j < clusters; j++) {
-                        Proceso procesoNuevo = new Proceso(j, proceso.getNombrePrograma(), proceso.getTamaño(), proceso.getTiempo());
-                        memoriaPrincipal.getCluster(primerCluster).addProceso(procesoNuevo);
+                        Proceso procesoNuevo = new Proceso(j, proceso.getNombrePrograma(), 256, proceso.getTiempo());
+                        memoriaPrincipal.getCluster(primerCluster+j).addProceso(procesoNuevo);
                         System.out.println(memoriaPrincipal.getCluster(primerCluster).getProceso(procesoNuevo.getNombrePrograma()).getNombrePrograma());
                     }
                     if(!nuevo)
@@ -98,10 +100,11 @@ public class Simulacion {
                             memoriaRespaldo.getCluster(i).limpiarCluster();
                         }
                     }
+                    return;
                 }
-            }
-            primerCluster = -1;
+            }           
         }
+         primerCluster = -1;
     }
     
     public void swapInSinFragmentacionExterna(Proceso proceso, boolean nuevo)  //Hace swap in para procesos que no requieren espacios contiguos

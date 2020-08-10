@@ -49,7 +49,7 @@ public class FXMLDocumentController implements Initializable {
     ListView listaMemoriaSecundaria; 
    
     Simulacion aux1 = new Simulacion();
-    Proceso aux2 = new Proceso(1,"Google.exe",256,2);
+    Proceso aux2 = new Proceso(1,"Google.exe",1024,2);
     
     @FXML
     private void handleButtonActionConfigSim(ActionEvent event) {        
