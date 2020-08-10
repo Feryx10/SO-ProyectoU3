@@ -34,6 +34,7 @@ public class Proceso {
         this.tiempo = tiempo;
         this.completado = false;
         this.iniciado = false;
+        calcularCantidadFragmentos();
     }
     
     public void calcularCantidadFragmentos()

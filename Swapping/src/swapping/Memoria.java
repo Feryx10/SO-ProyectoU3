@@ -26,6 +26,9 @@ public class Memoria {
 
     public Memoria(int tamanoMemoria) {
         this.memoria = new Cluster [tamanoMemoria/256];
+        for (int i = 0; i < this.memoria.length; i++) {
+            this.memoria[i] = new Cluster(256);
+        }
         this.tamanoMemoria = tamanoMemoria/256;  
     }
 

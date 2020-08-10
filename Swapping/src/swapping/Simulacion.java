@@ -75,6 +75,7 @@ public class Simulacion {
             
             if(memoriaPrincipal.getCluster(i).getEspacioDisponible()==256)//Ojo: tamaño estandar de un cluster 256mb
             {
+                System.out.println("llegue aqui");
                 if(primerCluster==-1)
                 {
                     primerCluster=i;
@@ -84,9 +85,11 @@ public class Simulacion {
                     clusters+=1;
                 if(clusters==proceso.getCantidadFragmentos())
                 {
+                    System.out.println(proceso.getCantidadFragmentos());
                     for (int j = 0; j < clusters; j++) {
                         Proceso procesoNuevo = new Proceso(j, proceso.getNombrePrograma(), proceso.getTamaño(), proceso.getTiempo());
                         memoriaPrincipal.getCluster(primerCluster).addProceso(procesoNuevo);
+                        System.out.println(memoriaPrincipal.getCluster(primerCluster).getProceso(procesoNuevo.getNombrePrograma()).getNombrePrograma());
                     }
                     if(!nuevo)
                     {

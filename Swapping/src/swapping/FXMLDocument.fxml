@@ -34,11 +34,11 @@
             <DropShadow />
          </effect>
       </Button>
-      <ListView fx:id="memoriaPrincipal" layoutX="33.0" layoutY="58.0" prefHeight="426.0" prefWidth="230.0">
+      <ListView fx:id="listaMemoriaPrincipal" layoutX="33.0" layoutY="58.0" prefHeight="426.0" prefWidth="230.0">
          <effect>
             <DropShadow />
          </effect></ListView>
-      <ListView fx:id="memoriaSecundaria" layoutX="404.0" layoutY="58.0" prefHeight="426.0" prefWidth="230.0">
+      <ListView fx:id="listaMemoriaSecundaria" layoutX="404.0" layoutY="58.0" prefHeight="426.0" prefWidth="230.0">
          <effect>
             <DropShadow />
          </effect></ListView>

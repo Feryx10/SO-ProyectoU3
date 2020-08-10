@@ -1,7 +1,18 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright (C) 2020 Grupo 1
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package swapping;
 
@@ -22,7 +33,7 @@ import javafx.scene.image.ImageView;
 
 /**
  *
- * @author Asus-ROG
+ * @author Grupo 1
  */
 public class FXMLDocumentController implements Initializable {
     
@@ -33,16 +44,19 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     Button b_configSim;
     @FXML
-    ListView memoriaPrincipal;
+    ListView listaMemoriaPrincipal;
     @FXML
-    ListView memoriaSecundaria;   
-    
-    Memoria memoriaUno = new Memoria(4096);
-    Memoria memoriaDos = new Memoria(4096);
+    ListView listaMemoriaSecundaria; 
+   
+    Simulacion aux1 = new Simulacion();
+    Proceso aux2 = new Proceso(1,"Google.exe",256,2);
     
     @FXML
-    private void handleButtonActionConfigSim(ActionEvent event) {
+    private void handleButtonActionConfigSim(ActionEvent event) {        
+        //aux1.procesos.add(aux2);
+        aux1.swapInConFragmentacionExterna(aux2, true);
         
+        this.refrescar();         
     }
     
     @FXML
@@ -58,19 +72,19 @@ public class FXMLDocumentController implements Initializable {
     
     private void refrescar(){      
  
-        ObservableList<Cluster> listaObservableUno = FXCollections.observableList(Arrays.asList(this.memoriaUno.getClusters()));            
-        this.memoriaPrincipal.setItems(listaObservableUno);
-        this.memoriaPrincipal.refresh();
+        ObservableList<Cluster> listaObservableUno = FXCollections.observableList(Arrays.asList(this.aux1.memoriaPrincipal.getClusters()));            
+        this.listaMemoriaPrincipal.setItems(listaObservableUno);
+        this.listaMemoriaPrincipal.refresh();
         
-        ObservableList<Cluster> listaObservableDos = FXCollections.observableList(Arrays.asList(this.memoriaDos.getClusters()));            
-        this.memoriaSecundaria.setItems(listaObservableDos);
-        this.memoriaSecundaria.refresh();
+        ObservableList<Cluster> listaObservableDos = FXCollections.observableList(Arrays.asList(this.aux1.memoriaRespaldo.getClusters()));            
+        this.listaMemoriaSecundaria.setItems(listaObservableDos);
+        this.listaMemoriaSecundaria.refresh();
         
     }  
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {           
-        this.memoriaPrincipal.setCellFactory(param -> new ListCell<Cluster>() {
+        this.listaMemoriaPrincipal.setCellFactory(param -> new ListCell<Cluster>() {
             private final ImageView imageView = new ImageView(new Image(this.getClass().getResource("color.png").toString()));
             @Override
             public void updateItem(Cluster aux, boolean empty) {
@@ -81,12 +95,12 @@ public class FXMLDocumentController implements Initializable {
                 } else {
                     //imageView.setEffect(new InnerShadow(100, aux.getColor()));
                     setGraphic(imageView);
-                    setText(" > " +  " | \n");
+                    setText(" > " + aux.toString() + " | \n");
                 }
             }
         });
         
-        this.memoriaSecundaria.setCellFactory(param -> new ListCell<Cluster>() {
+        this.listaMemoriaSecundaria.setCellFactory(param -> new ListCell<Cluster>() {
             private final ImageView imageView = new ImageView(new Image(this.getClass().getResource("color.png").toString()));
             @Override
             public void updateItem(Cluster aux, boolean empty) {
@@ -97,7 +111,7 @@ public class FXMLDocumentController implements Initializable {
                 } else {
                     //imageView.setEffect(new InnerShadow(100, aux.getColor()));
                     setGraphic(imageView);
-                    setText(" > " + " | \n");
+                    setText(" > " + aux.toString() + " | \n");
                 }
             }
         });             

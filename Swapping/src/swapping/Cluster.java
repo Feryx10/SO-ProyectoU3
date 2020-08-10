@@ -82,7 +82,7 @@ public class Cluster {
     
     @Override
     public String toString() {
-        return "{ED= " + this.espacioDisponible + ", P= " + this.procesos.toString() + ", O= " + this.ocupado + '}';
+        return "ED= " + this.espacioDisponible + ", P= " + this.procesos.toString() + ", O= " + this.ocupado;
     }   
 
     
