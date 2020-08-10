@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.effect.BoxBlur?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Polygon?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane id="AnchorPane" prefHeight="553.0" prefWidth="664.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="swapping.FXMLDocumentController">
+    <children>
+      <Polygon fill="#1f93ffe5" layoutX="284.0" layoutY="68.0" points="-50.0, 40.0, -178.0, -31.0, -10.0, -31.0" stroke="TRANSPARENT" strokeType="INSIDE">
+         <effect>
+            <BoxBlur width="32.32" />
+         </effect>
+      </Polygon>
+      <Polygon fill="#1f93ffe7" layoutX="660.0" layoutY="68.0" points="-50.0, 40.0, -178.0, -31.0, -10.0, -31.0" stroke="TRANSPARENT" strokeType="INSIDE">
+         <effect>
+            <BoxBlur width="32.32" />
+         </effect>
+      </Polygon>
+        <Button fx:id="b_swapIn" layoutX="167.0" layoutY="509.0" onAction="#handleButtonActionSwapIn" text="Swap In">
+         <effect>
+            <DropShadow />
+         </effect></Button>
+      <Button fx:id="b_swapOut" layoutX="436.0" layoutY="509.0" onAction="#handleButtonActionSwapOut" text="Swap Out">
+         <effect>
+            <DropShadow />
+         </effect>
+      </Button>
+      <Button fx:id="b_configSim" layoutX="275.0" layoutY="484.0" onAction="#handleButtonActionConfigSim" text="Config. Simulación">
+         <effect>
+            <DropShadow />
+         </effect>
+      </Button>
+      <ListView fx:id="memoriaPrincipal" layoutX="33.0" layoutY="58.0" prefHeight="426.0" prefWidth="230.0">
+         <effect>
+            <DropShadow />
+         </effect></ListView>
+      <ListView fx:id="memoriaSecundaria" layoutX="404.0" layoutY="58.0" prefHeight="426.0" prefWidth="230.0">
+         <effect>
+            <DropShadow />
+         </effect></ListView>
+      <Text fill="WHITE" layoutX="167.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Memoria Principal" />
+      <Text fill="WHITE" layoutX="530.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Memoria Secundaria" />
+    </children>
+   <effect>
+      <DropShadow />
+   </effect>
+</AnchorPane>
