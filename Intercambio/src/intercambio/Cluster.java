@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2020 Luciano
+ * Copyright (C) 2020 Grupo 1
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,21 +20,20 @@ import java.util.ArrayList;
 
 /**
  *
- * @author Luciano
+ * @author Grupo 1
  */
 public class Cluster {
     
     private int tamaño;
     private int espacioDisponible;
-    private ArrayList<Proceso> procesos = new ArrayList<Proceso>();
-    private boolean ocupado = false;
+    private final ArrayList<Proceso> procesos = new ArrayList<>();
+    private boolean ocupado;
 
     public Cluster(int tamaño) {
         this.tamaño = tamaño;
         this.espacioDisponible = tamaño;
-    }
-
-    
+        this.ocupado = false;
+    }    
     
     public int getTamano()
     {
@@ -43,7 +42,7 @@ public class Cluster {
     
     public void setTamano(int i)
     {
-        this.tamaño=i;
+        this.tamaño = i;
     }
     
     public Proceso getProceso (String nombre)
@@ -55,25 +54,31 @@ public class Cluster {
         return null;
     }
     
-    public void addProceso (Proceso proceso){
-        procesos.add(proceso);
-        calcularEspacio();
-    }
-    
-    public void calcularEspacio()
-    {
-        int ocupado=0;
-        for (int i = 0; i < procesos.size(); i++) {
-            ocupado+=procesos.get(i).getTamaño();            
-        }
-        this.espacioDisponible=tamaño-ocupado;
-    }
-    
     public int getEspacioDisponible()
     {
         return this.espacioDisponible;
     }
     
+    public void addProceso (Proceso proceso){
+        procesos.add(proceso);
+        calcularEspacio();
+    }    
+    
+    private void calcularEspacio()
+    {
+        int lleno = 0;
+        for (int i = 0; i < procesos.size(); i++) {
+            lleno += procesos.get(i).getTamaño();            
+        }
+        this.espacioDisponible = tamaño - lleno;
+        if(this.espacioDisponible != tamaño)
+            this.ocupado = true;
+    }
+
+    @Override
+    public String toString() {
+        return "{ED= " + this.espacioDisponible + ", P= " + this.procesos.toString() + ", O= " + this.ocupado + '}';
+    }   
 }
 
 

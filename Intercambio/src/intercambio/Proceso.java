@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2020 Asus-ROG
+ * Copyright (C) 2020 Grupo 1
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,7 +18,7 @@ package intercambio;
 
 /**
  *
- * @author Asus-ROG
+ * @author Grupo 1
  */
 public class Proceso {
     private final int ID;    
@@ -35,7 +35,7 @@ public class Proceso {
     
     public void calcularCantidadFragmentos()
     {
-        int valor = (int) Math.ceil(tamaño/32);
+        int valor = (int) Math.ceil(tamaño/256);
         this.cantidadFragmentos = valor;
     }
     
@@ -65,7 +65,7 @@ public class Proceso {
 
     @Override
     public String toString() {
-        return "Proceso{" + "ID=" + ID + ", nombrePrograma=" + nombrePrograma + ", tama\u00f1o=" + tamaño + '}';
+        return "Proceso{" + "ID=" + ID + ", Nombre=" + nombrePrograma + ", Tama\u00f1o=" + tamaño + '}';
     }
 
     public boolean isCompletado() {

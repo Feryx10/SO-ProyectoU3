@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2020 lucia
+ * Copyright (C) 2020 Grupo 1
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@ import java.util.ArrayList;
 
 /**
  *
- * @author lucia
+ * @author Grupo 1
  */
 public class Simulacion {
     
@@ -28,11 +28,11 @@ public class Simulacion {
     Memoria memoriaRespaldo;
     int tiempo = 0;
     int procesosTerminados = 0;
-    ArrayList<Proceso> procesos = new ArrayList<Proceso>();
+    ArrayList<Proceso> procesos = new ArrayList<>();
 
     public Simulacion() {
-        this.memoriaPrincipal = new Memoria(128);
-        this.memoriaRespaldo = new Memoria (512);
+        this.memoriaPrincipal = new Memoria(4096);
+        this.memoriaRespaldo = new Memoria (4096);
     }
     
     public void iniciarSimulacion()
@@ -63,7 +63,7 @@ public class Simulacion {
         int clusters = 0;
         for (int i = 0; i < memoriaPrincipal.getTamanoMemoria(); i++) {
             
-            if(memoriaPrincipal.getCluster(i).getEspacioDisponible()==32)//Ojo: tamaño estandar de un cluster 32kb
+            if(memoriaPrincipal.getCluster(i).getEspacioDisponible()==256)//Ojo: tamaño estandar de un cluster 256kb
             {
                 if(primerCluster==-1)
                 {
@@ -87,7 +87,7 @@ public class Simulacion {
         int puntero=0;
         
         for (int i = 0; memoriaPrincipal.getTamanoMemoria() < 10; i++) {
-            if(memoriaPrincipal.getCluster(i).getEspacioDisponible()==32)
+            if(memoriaPrincipal.getCluster(i).getEspacioDisponible()==256)
             {
                 clustersDisponibles[puntero]=i;
                 puntero++;

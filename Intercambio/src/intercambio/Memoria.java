@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2020 Asus-ROG
+ * Copyright (C) 2020 Grupo 1
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,19 +16,17 @@
  */
 package intercambio;
 
-import java.util.ArrayList;
-
 /**
  *
- * @author Asus-ROG
+ * @author Grupo 1
  */
 public class Memoria {
     private Cluster [] memoria;
     private int tamanoMemoria;
 
     public Memoria(int tamanoMemoria) {
-        this.memoria = new Cluster [tamanoMemoria];
-        this.tamanoMemoria = tamanoMemoria;  
+        this.memoria = new Cluster [tamanoMemoria/256];
+        this.tamanoMemoria = tamanoMemoria/256;  
     }
 
     public Proceso getProceso(String nombre) {
@@ -100,7 +98,18 @@ public class Memoria {
     public void resetMemoria() {
         this.memoria = new Cluster [this.tamanoMemoria];        
     }   
-
     
+    public String mostrarMemoria() {
+        String aux ="";
+        for (int i = 0; i < this.memoria.length; i++) {
+            aux="     | "+this.memoria[i].toString()+" |\n";                                 
+        }
+        return aux;     
+    }   
+    
+    @Override
+    public String toString() {
+        return "Memoria{Tamano de Memoria=" + this.tamanoMemoria + '}'+"\n"+this.mostrarMemoria();
+    }
     
 }
