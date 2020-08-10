@@ -78,6 +78,7 @@ public class Cluster {
     public void limpiarCluster()
     {
         procesos.clear();
+        this.espacioDisponible=this.tamaño;
     }
     
     @Override
