@@ -69,7 +69,7 @@ public class Proceso {
 
     @Override
     public String toString() {
-        return "Proceso{" + "ID=" + ID + ", Nombre=" + nombrePrograma + ", Tama\u00f1o=" + tamaño + '}';
+        return "{" + "ID=" + ID + ", Nombre=" + nombrePrograma + ", Kb=" + tamaño + '}';
     }
 
     public boolean isCompletado() {

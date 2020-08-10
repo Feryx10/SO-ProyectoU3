@@ -95,7 +95,7 @@ public class FXMLDocumentController implements Initializable {
                 } else {
                     //imageView.setEffect(new InnerShadow(100, aux.getColor()));
                     setGraphic(imageView);
-                    setText(" > " + aux.toString() + " | \n");
+                    setText(": " + aux.toString() + "\n");
                 }
             }
         });
@@ -111,7 +111,7 @@ public class FXMLDocumentController implements Initializable {
                 } else {
                     //imageView.setEffect(new InnerShadow(100, aux.getColor()));
                     setGraphic(imageView);
-                    setText(" > " + aux.toString() + " | \n");
+                    setText(": " + aux.toString() + "\n");
                 }
             }
         });             
