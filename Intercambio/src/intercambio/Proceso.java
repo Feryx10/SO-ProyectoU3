@@ -23,7 +23,8 @@ package intercambio;
 public class Proceso {
     private final int ID;    
     private final String nombrePrograma;
-    private boolean completado = false;
+    private boolean completado;
+    private boolean iniciado;
     private int tamaño,tamañoFragmento, tiempo, cantidadFragmentos;    
 
     public Proceso(int ID, String nombrePrograma, int tamaño, int tiempo) {
@@ -31,6 +32,8 @@ public class Proceso {
         this.nombrePrograma = nombrePrograma;
         this.tamaño = tamaño;
         this.tiempo = tiempo;
+        this.completado = false;
+        this.iniciado = false;
     }
     
     public void calcularCantidadFragmentos()
@@ -90,6 +93,14 @@ public class Proceso {
 
     public void setCantidadFragmentos(int cantidadFragmentos) {
         this.cantidadFragmentos = cantidadFragmentos;
+    }
+
+    public boolean isIniciado() {
+        return iniciado;
+    }
+
+    public void setIniciado(boolean iniciado) {
+        this.iniciado = iniciado;
     }
     
            

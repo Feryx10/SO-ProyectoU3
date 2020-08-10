@@ -74,6 +74,12 @@ public class Memoria {
     public int getTamanoMemoria() {
         return tamanoMemoria;
     }
+    /*
+    public int getMemoriaDisponible(){
+        for (int i = 0; i < memoria.length; i++) {
+            
+        }
+    }*/
 
     public boolean setTamanoMemoria(int tamanoMemoria, boolean reset) {
         if(reset){

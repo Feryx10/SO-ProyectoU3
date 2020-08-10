@@ -75,10 +75,17 @@ public class Cluster {
             this.ocupado = true;
     }
 
+    public void limpiarCluster()
+    {
+        procesos.clear();
+    }
+    
     @Override
     public String toString() {
         return "{ED= " + this.espacioDisponible + ", P= " + this.procesos.toString() + ", O= " + this.ocupado + '}';
     }   
+
+    
 }
 
 
