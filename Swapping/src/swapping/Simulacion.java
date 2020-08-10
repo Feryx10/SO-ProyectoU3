@@ -102,9 +102,10 @@ public class Simulacion {
                     }
                     return;
                 }
-            }           
+            }
+            else
+                primerCluster = -1;
         }
-         primerCluster = -1;
     }
     
     public void swapInSinFragmentacionExterna(Proceso proceso, boolean nuevo)  //Hace swap in para procesos que no requieren espacios contiguos
@@ -127,8 +128,8 @@ public class Simulacion {
                 if(!nuevo)
                 {
                     for (int j = 0; j < memoriaRespaldo.getTamanoMemoria(); j++) {
-                    if(memoriaRespaldo.getCluster(i).getProceso(proceso.getNombrePrograma()) != null)
-                        memoriaRespaldo.getCluster(i).limpiarCluster();
+                    if(memoriaRespaldo.getCluster(j).getProceso(proceso.getNombrePrograma()) != null)
+                        memoriaRespaldo.getCluster(j).limpiarCluster();
                     }
                 }
                 return;
@@ -138,9 +139,10 @@ public class Simulacion {
     }
     
     public void swapOutConFragmentacionExterna(Proceso proceso, boolean nuevo) //Busca N espacios contiguos para procesos con fragmentacion externa
-    {                                                         
+    {                          
         int primerCluster = -1;
         int clusters = 0;
+        System.out.println("Fragmentos proceso: "+proceso.getCantidadFragmentos());
         for (int i = 0; i < memoriaRespaldo.getTamanoMemoria(); i++) {
             
             if(memoriaRespaldo.getCluster(i).getEspacioDisponible()==256)//Ojo: tamaño estandar de un cluster 256mb
@@ -152,22 +154,27 @@ public class Simulacion {
                 }
                 else
                     clusters+=1;
+                System.out.println("clusters: "+clusters +", primerCluster: "+ primerCluster);
                 if(clusters==proceso.getCantidadFragmentos())
                 {
                     for (int j = 0; j < clusters; j++) {
-                        Proceso procesoNuevo = new Proceso(j, proceso.getNombrePrograma(), proceso.getTamaño(), proceso.getTiempo());
-                        memoriaRespaldo.getCluster(primerCluster).addProceso(procesoNuevo);
+                        Proceso procesoNuevo = new Proceso(j, proceso.getNombrePrograma(), 256, proceso.getTiempo());
+                        memoriaRespaldo.getCluster(primerCluster+j).addProceso(procesoNuevo);
+                     //   System.out.println(memoriaRespaldo.getCluster(primerCluster).getProceso(procesoNuevo.getNombrePrograma()).getNombrePrograma());
                     }
                     if(!nuevo)
                     {
                         for (int j = 0; j < memoriaPrincipal.getTamanoMemoria(); j++) {
-                        if(memoriaPrincipal.getCluster(i).getProceso(proceso.getNombrePrograma()) != null)
-                            memoriaPrincipal.getCluster(i).limpiarCluster();
+                        if(memoriaPrincipal.getCluster(j).getProceso(proceso.getNombrePrograma()) != null)
+                            memoriaPrincipal.getCluster(j).limpiarCluster();
+                        
                         }
-                    }
+                    }                    
+                    return;
                 }
             }
-            primerCluster = -1;
+            else
+                primerCluster = -1;
         }
     }
     
@@ -185,15 +192,15 @@ public class Simulacion {
             if(puntero+1==clustersDisponibles.length)
             {
                 for (int j = 0; clustersDisponibles.length < 10; j++) {
-                    Proceso procesoNuevo = new Proceso(j, proceso.getNombrePrograma(), proceso.getTamaño(), proceso.getTiempo());
+                    Proceso procesoNuevo = new Proceso(j, proceso.getNombrePrograma(), 256, proceso.getTiempo());
                     memoriaRespaldo.getCluster(i).addProceso(procesoNuevo);
                 }
                 if(!nuevo)
                 {
                     for (int j = 0; j < memoriaPrincipal.getTamanoMemoria(); j++) {
-                    if(memoriaPrincipal.getCluster(i).getProceso(proceso.getNombrePrograma()) != null)
-                        memoriaPrincipal.getCluster(i).limpiarCluster();
-                    }
+                        if(memoriaPrincipal.getCluster(j).getProceso(proceso.getNombrePrograma()) != null)
+                            memoriaPrincipal.getCluster(j).limpiarCluster();
+                        }
                 }
                 return;
             }
