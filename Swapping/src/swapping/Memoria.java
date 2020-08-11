@@ -126,4 +126,14 @@ public class Memoria {
         return "Memoria{Tamano de Memoria=" + this.tamanoMemoria + '}'+"\n"+this.mostrarMemoria();
     }
     
+    public void removerProceso(Proceso proceso)
+    {
+        Proceso procesoCandidato;
+        for (int i = 0; i < this.tamanoMemoria; i++) {
+            procesoCandidato = this.memoria[i].getProceso(0);
+            if(procesoCandidato.getNombrePrograma().equals(proceso.getNombrePrograma()))
+                this.memoria[i].limpiarCluster();
+        }
+    }
+    
 }
