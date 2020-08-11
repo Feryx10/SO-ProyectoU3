@@ -83,7 +83,7 @@ public class Cluster {
     {
         int lleno = 0;
         for (int i = 0; i < procesos.size(); i++) {
-            lleno += procesos.get(i).getTamaño();            
+            lleno += procesos.get(i).getTamañoFragmento();            
         }
         this.espacioDisponible = tamaño - lleno;
         if(this.espacioDisponible != tamaño)
@@ -92,6 +92,8 @@ public class Cluster {
 
     public void limpiarCluster()
     {
+        this.color = Color.WHITE;
+        this.ocupado = false;
         procesos.clear();
         this.espacioDisponible=this.tamaño;
     }
@@ -102,7 +104,7 @@ public class Cluster {
     
     @Override
     public String toString() {
-        return "ED= " + this.espacioDisponible + ", O= " + this.ocupado + "\n P= " + this.procesos.toString();
+        return "ED= " + this.espacioDisponible + ", Ocupado= " + this.ocupado + "\n P= " + this.procesos.toString();
     }   
 
     

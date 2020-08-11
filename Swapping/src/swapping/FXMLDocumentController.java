@@ -91,10 +91,24 @@ public class FXMLDocumentController implements Initializable {
         Proceso aux2 = new Proceso(1,"Google.exe",1024,2,1);
         Proceso aux3 = new Proceso(1,"Firefox.exe",512,2,1);
         Proceso aux4 = new Proceso(1,"Minecraft.exe",256,2,1);
+        Proceso aux5 = new Proceso(1,"Premiere.exe",512,2,4);
+        Proceso aux6 = new Proceso(1,"Steam.exe",1024,2,3);
+        Proceso aux7 = new Proceso(1,"NetBeans.exe",1024,2,5);
+        Proceso aux8 = new Proceso(1,"Discord.exe",768,2,2);
+        Proceso aux9 = new Proceso(1,"CiscoPacketTracer.exe",512,2,4);
+        Proceso aux10 = new Proceso(1,"Spotify.exe",256,2,4);
+        Proceso aux11 = new Proceso(1,"GitKraken.exe",512,2,4);        
         
         simulacion.agregarProceso(aux2);
         simulacion.agregarProceso(aux3);
         simulacion.agregarProceso(aux4);
+        simulacion.agregarProceso(aux5);
+        simulacion.agregarProceso(aux6);
+        simulacion.agregarProceso(aux7);
+        simulacion.agregarProceso(aux8);
+        simulacion.agregarProceso(aux9);
+        simulacion.agregarProceso(aux10);
+        simulacion.agregarProceso(aux11);      
 
     }
     

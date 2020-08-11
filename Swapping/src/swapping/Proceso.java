@@ -16,10 +16,7 @@
  */
 package swapping;
 
-import java.util.Random;
 import javafx.scene.paint.Color;
-
-
 
 /**
  *
@@ -31,8 +28,7 @@ public class Proceso {
     private boolean completado;
     private boolean iniciado;
     private int tamaño,tamañoFragmento, tiempo,tiempoLlevado, cantidadFragmentos, prioridad;    
-    private final Color color;
-    private int colorHash;
+    private Color color = Color.BLACK; 
 
     public Proceso(int ID, String nombrePrograma, int tamaño, int tiempo, int prioridad) {
         this.ID = ID;
@@ -44,11 +40,27 @@ public class Proceso {
         this.iniciado = false;
         this.prioridad = prioridad;
         calcularCantidadFragmentos();
-        calcularPesoFramgento();
-        this.colorHash = (int) Math.sqrt(nombrePrograma.hashCode()*nombrePrograma.hashCode());
-        while(this.colorHash>255)
-            this.colorHash = this.colorHash/2;
-        this.color = Color.rgb(this.colorHash, this.colorHash, this.colorHash);
+        calcularPesoFramgento();            
+        if(this.nombrePrograma.equals("Google.exe"))
+            this.color = Color.AQUA;
+        if(this.nombrePrograma.equals("Firefox.exe"))
+            this.color = Color.DARKORANGE;
+        if(this.nombrePrograma.equals("Minecraft.exe"))
+            this.color = Color.MAGENTA;       
+        if(this.nombrePrograma.equals("Premiere.exe"))
+            this.color = Color.ALICEBLUE;    
+        if(this.nombrePrograma.equals("Steam.exe"))
+            this.color = Color.CHARTREUSE;    
+        if(this.nombrePrograma.equals("NetBeans.exe"))
+            this.color = Color.MISTYROSE;    
+        if(this.nombrePrograma.equals("Discord.exe"))
+            this.color = Color.YELLOW;    
+        if(this.nombrePrograma.equals("CiscoPacketTracer.exe"))
+            this.color = Color.SPRINGGREEN;    
+        if(this.nombrePrograma.equals("Spotify.exe"))
+            this.color = Color.DIMGRAY;  
+        if(this.nombrePrograma.equals("GitKraken.exe"))
+            this.color = Color.PALEVIOLETRED;  
     }
     
     public void calcularCantidadFragmentos()
@@ -88,7 +100,7 @@ public class Proceso {
 
     @Override
     public String toString() {
-        return "{" + "ID=" + ID + ", Nombre=" + nombrePrograma + ", Kb=" + tamaño + '}';
+        return "{" + "ID:" + ID + ", Nombre:" + nombrePrograma + ", Kb:" + this.tamañoFragmento +", T:"+ (this.tiempo-this.tiempoLlevado)+ ", P=" + this.prioridad+'}';
     }
 
     public boolean isCompletado() {

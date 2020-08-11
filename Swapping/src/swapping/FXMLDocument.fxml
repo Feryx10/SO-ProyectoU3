@@ -30,11 +30,11 @@
             <DropShadow />
          </effect>
       </Button>
-      <ListView fx:id="listaMemoriaPrincipal" layoutX="28.0" layoutY="28.0" onMousePressed="#seleccionClusterPrimaria" prefHeight="645.0" prefWidth="330.0">
+      <ListView fx:id="listaMemoriaPrincipal" layoutX="28.0" layoutY="28.0" onMousePressed="#seleccionClusterPrimaria" prefHeight="645.0" prefWidth="350.0">
          <effect>
             <DropShadow />
          </effect></ListView>
-      <ListView fx:id="listaMemoriaSecundaria" layoutX="539.0" layoutY="28.0" onMousePressed="#seleccionClusterSecundaria" prefHeight="645.0" prefWidth="330.0">
+      <ListView fx:id="listaMemoriaSecundaria" layoutX="519.0" layoutY="28.0" onMousePressed="#seleccionClusterSecundaria" prefHeight="645.0" prefWidth="350.0">
          <effect>
             <DropShadow />
          </effect></ListView>
@@ -57,7 +57,7 @@
             <BoxBlur width="32.32" />
          </effect>
       </Polygon>
-      <ListView fx:id="colaDeProcesos" layoutX="910.0" layoutY="64.0" onMousePressed="#seleccionClusterProcesos" prefHeight="645.0" prefWidth="283.0">
+      <ListView fx:id="colaDeProcesos" layoutX="897.0" layoutY="64.0" onMousePressed="#seleccionClusterProcesos" prefHeight="645.0" prefWidth="296.0">
          <effect>
             <DropShadow />
          </effect>
