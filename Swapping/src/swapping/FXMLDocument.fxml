@@ -30,11 +30,11 @@
             <DropShadow />
          </effect>
       </Button>
-      <ListView fx:id="listaMemoriaPrincipal" layoutX="28.0" layoutY="28.0" onMouseClicked="#seleccionCluster" prefHeight="645.0" prefWidth="330.0">
+      <ListView fx:id="listaMemoriaPrincipal" layoutX="28.0" layoutY="28.0" prefHeight="645.0" prefWidth="330.0">
          <effect>
             <DropShadow />
          </effect></ListView>
-      <ListView fx:id="listaMemoriaSecundaria" layoutX="539.0" layoutY="28.0" onMouseClicked="#seleccionCluster" prefHeight="645.0" prefWidth="330.0">
+      <ListView fx:id="listaMemoriaSecundaria" layoutX="539.0" layoutY="28.0" prefHeight="645.0" prefWidth="330.0">
          <effect>
             <DropShadow />
          </effect></ListView>
@@ -51,13 +51,13 @@
             <DropShadow />
          </effect>
       </Button>
-      <Button layoutX="400.0" layoutY="583.0" mnemonicParsing="false" onAction="#handleButtonActionTiempo" text="Avanzar Tiempo" />
+      <Button fx:id="b_configSim" layoutX="400.0" layoutY="583.0" mnemonicParsing="false" onAction="#handleButtonActionTiempo" text="Avanzar Tiempo" />
       <Polygon fill="#1f93ffe7" layoutX="1220.0" layoutY="77.0" points="-50.0, 40.0, -178.0, -31.0, -10.0, -31.0" stroke="TRANSPARENT" strokeType="INSIDE">
          <effect>
             <BoxBlur width="32.32" />
          </effect>
       </Polygon>
-      <ListView fx:id="colaDeProcesos" layoutX="910.0" layoutY="64.0" onMouseClicked="#seleccionCluster" prefHeight="645.0" prefWidth="283.0">
+      <ListView fx:id="colaDeProcesos" layoutX="910.0" layoutY="64.0" prefHeight="645.0" prefWidth="283.0">
          <effect>
             <DropShadow />
          </effect>
