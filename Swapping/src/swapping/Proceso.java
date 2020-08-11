@@ -30,19 +30,20 @@ public class Proceso {
     private final String nombrePrograma;
     private boolean completado;
     private boolean iniciado;
-    private int tamaño,tamañoFragmento, tiempo, cantidadFragmentos;    
+    private int tamaño,tamañoFragmento, tiempo, cantidadFragmentos, prioridad;    
     private final Color color;
     private int colorHash;
 
-    public Proceso(int ID, String nombrePrograma, int tamaño, int tiempo) {
+    public Proceso(int ID, String nombrePrograma, int tamaño, int tiempo, int prioridad) {
         this.ID = ID;
         this.nombrePrograma = nombrePrograma;
         this.tamaño = tamaño;
         this.tiempo = tiempo;
         this.completado = false;
         this.iniciado = false;
+        this.prioridad = prioridad;
         calcularCantidadFragmentos();
-        
+        calcularPesoFramgento();
         this.colorHash = (int) Math.sqrt(nombrePrograma.hashCode()*nombrePrograma.hashCode());
         while(this.colorHash>255)
             this.colorHash = this.colorHash/2;
@@ -55,9 +56,14 @@ public class Proceso {
         this.cantidadFragmentos = valor;
     }
     
+    public void calcularPesoFramgento()
+    {
+        tamañoFragmento=256;
+    }
+    
     public int getID() {
         return ID;
-    }    
+    }
 
     public String getNombrePrograma() {
         return nombrePrograma;
@@ -114,6 +120,14 @@ public class Proceso {
 
     public void setIniciado(boolean iniciado) {
         this.iniciado = iniciado;
+    }
+
+    public int getPrioridad() {
+        return prioridad;
+    }
+
+    public void setPrioridad(int prioridad) {
+        this.prioridad = prioridad;
     }
     
     public Color getColor(){

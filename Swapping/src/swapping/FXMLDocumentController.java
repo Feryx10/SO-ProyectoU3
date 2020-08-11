@@ -62,9 +62,9 @@ public class FXMLDocumentController implements Initializable {
    
     Cluster auxiliarClusterSeleccionado = null;
     Simulacion aux1 = new Simulacion();
-    Proceso aux2 = new Proceso(1,"Google.exe",1024,2);
-    Proceso aux3 = new Proceso(1,"Firefox.exe",512,2);
-    Proceso aux4 = new Proceso(1,"Minecraft.exe",256,2);  
+    Proceso aux2 = new Proceso(1,"Google.exe",1024,2,1);
+    Proceso aux3 = new Proceso(1,"Firefox.exe",512,2,1);
+    Proceso aux4 = new Proceso(1,"Minecraft.exe",256,2,1);
     Thread hilo;       
         
     Runnable runnable = new Runnable() {
@@ -91,6 +91,7 @@ public class FXMLDocumentController implements Initializable {
     private void handleButtonActionConfigSim(ActionEvent event) {        
         //aux1.procesos.add(aux2);
         aux1.swapInConFragmentacionExterna(aux2, true);
+        aux1.swapInConFragmentacionExterna(aux4, true);
         aux1.swapInConFragmentacionExterna(aux3, true);
         aux1.swapInConFragmentacionExterna(aux4, true);
         this.runTimer();

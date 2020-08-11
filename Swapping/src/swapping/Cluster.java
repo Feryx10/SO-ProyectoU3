@@ -57,6 +57,11 @@ public class Cluster {
         return null;
     }
     
+    public Proceso getProceso (int i)
+    {
+        return procesos.get(i);
+    }
+    
     public int getEspacioDisponible()
     {
         return this.espacioDisponible;
@@ -67,6 +72,10 @@ public class Cluster {
         calcularEspacio();
         this.color = proceso.getColor();
     }    
+    public boolean isEmpty()
+    {
+        return procesos.isEmpty();
+    }
     
     private void calcularEspacio()
     {

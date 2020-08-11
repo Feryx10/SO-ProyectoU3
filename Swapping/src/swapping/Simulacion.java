@@ -67,11 +67,68 @@ public class Simulacion {
         return -1;
     }
     
+    public Proceso buscarMenorPrioridadSinFragmentacion(Proceso proceso)
+    {
+        Proceso procesoCandidato;
+        for (int i = 0; i < memoriaPrincipal.getTamanoMemoria(); i++) {
+            procesoCandidato = memoriaPrincipal.getCluster(i).getProceso(0);
+            if (proceso.getPrioridad()<procesoCandidato.getPrioridad() && procesoCandidato.getTamaño() >= proceso.getTamaño())
+            {
+                return procesoCandidato;
+            }
+        }
+        return null;
+    }
+    
+    public Proceso buscarMenorPrioridadConFragmentacion(Proceso proceso)
+    {
+        int clusters = 0;
+        Proceso procesoCandidato=null;
+        Proceso siguienteProceso;
+        System.out.println("Fragmentos proceso: "+proceso.getCantidadFragmentos());
+        for (int i = 0; i < memoriaPrincipal.getTamanoMemoria(); i++) {
+            System.out.println("TamañoMemoria: "+memoriaPrincipal.getTamanoMemoria()+" puntero: "+i);
+            if(memoriaPrincipal.getCluster(i).isEmpty())
+            {
+                clusters++;
+                System.out.println("Clusters: "+clusters);
+            }                
+            else
+            {
+                siguienteProceso=memoriaPrincipal.getCluster(i).getProceso(0);
+                System.out.println("Proceso 1: "+proceso.getNombrePrograma()+" Tamaño: "+proceso.getTamaño()+" Prioridad: "+proceso.getPrioridad());
+                System.out.println("Proceso 2: "+siguienteProceso.getNombrePrograma()+" Tamaño: "+siguienteProceso.getTamaño()+" Prioridad: "+siguienteProceso.getPrioridad());
+                
+                if(siguienteProceso.getTamaño()>=proceso.getTamaño() && siguienteProceso.getPrioridad()<proceso.getPrioridad())//Ojo: tamaño estandar de un cluster 256mb
+                {
+                    System.out.println("xd");
+                    if(procesoCandidato==null)
+                    {
+                        procesoCandidato=siguienteProceso;
+                        clusters=1;
+                    }
+                    else if(siguienteProceso==procesoCandidato)
+                        clusters+=1;
+                    else
+                        procesoCandidato=null;
+                }
+                else
+                    procesoCandidato=null;
+            }
+            
+            if(clusters==proceso.getCantidadFragmentos())
+                {
+                    return procesoCandidato;
+                }
+        }
+        return null;
+    }
+    
     public void swapInConFragmentacionExterna(Proceso proceso, boolean nuevo) //Busca N espacios contiguos para procesos con fragmentacion externa
-    {                                                         
+    {                                       
         int primerCluster = -1;
         int clusters = 0;
-        System.out.println("Fragmentos proceso: "+proceso.getCantidadFragmentos());
+       // System.out.println("Fragmentos proceso: "+proceso.getCantidadFragmentos());
         for (int i = 0; i < memoriaPrincipal.getTamanoMemoria(); i++) {
             
             if(memoriaPrincipal.getCluster(i).getEspacioDisponible()==256)//Ojo: tamaño estandar de un cluster 256mb
@@ -84,14 +141,14 @@ public class Simulacion {
                 }
                 else
                     clusters+=1;
-                System.out.println("clusters: "+clusters +", primerCluster: "+ primerCluster);
+         //       System.out.println("clusters: "+clusters +", primerCluster: "+ primerCluster);
                 if(clusters==proceso.getCantidadFragmentos())
                 {
-                    System.out.println(proceso.getCantidadFragmentos());
+                   // System.out.println(proceso.getCantidadFragmentos());
                     for (int j = 0; j < clusters; j++) {
-                        Proceso procesoNuevo = new Proceso(j, proceso.getNombrePrograma(), 256, proceso.getTiempo());
+                        Proceso procesoNuevo = new Proceso(j, proceso.getNombrePrograma(), proceso.getTamaño(), proceso.getTiempo(), proceso.getPrioridad());
                         memoriaPrincipal.getCluster(primerCluster+j).addProceso(procesoNuevo);
-                        System.out.println(memoriaPrincipal.getCluster(primerCluster).getProceso(procesoNuevo.getNombrePrograma()).getNombrePrograma());
+                      //  System.out.println(memoriaPrincipal.getCluster(primerCluster).getProceso(procesoNuevo.getNombrePrograma()).getNombrePrograma());
                     }
                     if(!nuevo)
                     {
@@ -106,24 +163,33 @@ public class Simulacion {
             else
                 primerCluster = -1;
         }
+        Proceso procesoSwapOut = buscarMenorPrioridadConFragmentacion(proceso);
+        System.out.println(procesoSwapOut);
+        if(procesoSwapOut!=null)
+        {
+            swapOutConFragmentacionExterna(procesoSwapOut, false);
+            swapInConFragmentacionExterna(proceso, false);
+            return;
+        }
+        return;
     }
     
     public void swapInSinFragmentacionExterna(Proceso proceso, boolean nuevo)  //Hace swap in para procesos que no requieren espacios contiguos
     {
         int [] clustersDisponibles = new int [proceso.getCantidadFragmentos()];
         int puntero=0;
-        
-        for (int i = 0; memoriaPrincipal.getTamanoMemoria() < 10; i++) {
+        for (int i = 0; i < memoriaPrincipal.getTamanoMemoria(); i++) {
             if(memoriaPrincipal.getCluster(i).getEspacioDisponible()==256)
             {
                 clustersDisponibles[puntero]=i;
                 puntero++;
             }
-            if(puntero+1==clustersDisponibles.length)
+           // System.out.println(puntero);
+            if(puntero==proceso.getCantidadFragmentos())
             {
-                for (int j = 0; clustersDisponibles.length < 10; j++) {
-                    Proceso procesoNuevo = new Proceso(j, proceso.getNombrePrograma(), proceso.getTamaño(), proceso.getTiempo());
-                    memoriaPrincipal.getCluster(i).addProceso(procesoNuevo);
+                for (int j = 0; j < clustersDisponibles.length; j++) {
+                    Proceso procesoNuevo = new Proceso(j, proceso.getNombrePrograma(), proceso.getTamaño(), proceso.getTiempo(), proceso.getPrioridad());
+                    memoriaPrincipal.getCluster(clustersDisponibles[j]).addProceso(procesoNuevo);
                 }
                 if(!nuevo)
                 {
@@ -135,14 +201,21 @@ public class Simulacion {
                 return;
             }
         }
-        System.out.println("no hay espacio");
+        Proceso procesoSwapOut = buscarMenorPrioridadSinFragmentacion(proceso);
+        if(procesoSwapOut!=null)
+        {
+            swapOutSinFragmentacionExterna(procesoSwapOut, false);
+            swapInSinFragmentacionExterna(proceso, false);
+            return;
+        }
+        return;
     }
     
     public void swapOutConFragmentacionExterna(Proceso proceso, boolean nuevo) //Busca N espacios contiguos para procesos con fragmentacion externa
     {                          
         int primerCluster = -1;
         int clusters = 0;
-        System.out.println("Fragmentos proceso: "+proceso.getCantidadFragmentos());
+    //    System.out.println("Fragmentos proceso: "+proceso.getCantidadFragmentos());
         for (int i = 0; i < memoriaRespaldo.getTamanoMemoria(); i++) {
             
             if(memoriaRespaldo.getCluster(i).getEspacioDisponible()==256)//Ojo: tamaño estandar de un cluster 256mb
@@ -154,11 +227,11 @@ public class Simulacion {
                 }
                 else
                     clusters+=1;
-                System.out.println("clusters: "+clusters +", primerCluster: "+ primerCluster);
+          //      System.out.println("clusters: "+clusters +", primerCluster: "+ primerCluster);
                 if(clusters==proceso.getCantidadFragmentos())
                 {
                     for (int j = 0; j < clusters; j++) {
-                        Proceso procesoNuevo = new Proceso(j, proceso.getNombrePrograma(), 256, proceso.getTiempo());
+                        Proceso procesoNuevo = new Proceso(j, proceso.getNombrePrograma(), proceso.getTamaño(), proceso.getTiempo(), proceso.getPrioridad());
                         memoriaRespaldo.getCluster(primerCluster+j).addProceso(procesoNuevo);
                      //   System.out.println(memoriaRespaldo.getCluster(primerCluster).getProceso(procesoNuevo.getNombrePrograma()).getNombrePrograma());
                     }
@@ -183,17 +256,17 @@ public class Simulacion {
         int [] clustersDisponibles = new int [proceso.getCantidadFragmentos()];
         int puntero=0;
         
-        for (int i = 0; memoriaRespaldo.getTamanoMemoria() < 10; i++) {
+        for (int i = 0; i < memoriaRespaldo.getTamanoMemoria(); i++) {
             if(memoriaRespaldo.getCluster(i).getEspacioDisponible()==256)
             {
                 clustersDisponibles[puntero]=i;
                 puntero++;
             }
-            if(puntero+1==clustersDisponibles.length)
+            if(puntero==clustersDisponibles.length)
             {
-                for (int j = 0; clustersDisponibles.length < 10; j++) {
-                    Proceso procesoNuevo = new Proceso(j, proceso.getNombrePrograma(), 256, proceso.getTiempo());
-                    memoriaRespaldo.getCluster(i).addProceso(procesoNuevo);
+                for (int j = 0; j < clustersDisponibles.length; j++) {
+                    Proceso procesoNuevo = new Proceso(j, proceso.getNombrePrograma(), proceso.getTamaño(), proceso.getTiempo(), proceso.getPrioridad());
+                    memoriaRespaldo.getCluster(clustersDisponibles[j]).addProceso(procesoNuevo);
                 }
                 if(!nuevo)
                 {
