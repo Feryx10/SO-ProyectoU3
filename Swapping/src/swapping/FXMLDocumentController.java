@@ -89,15 +89,15 @@ public class FXMLDocumentController implements Initializable {
     public void cargarProgramas()
     {
         Proceso aux2 = new Proceso(1,"Google.exe",1024,2,1);
-        Proceso aux3 = new Proceso(1,"Firefox.exe",512,2,1);
-        Proceso aux4 = new Proceso(1,"Minecraft.exe",256,2,1);
-        Proceso aux5 = new Proceso(1,"Premiere.exe",512,2,4);
+        Proceso aux3 = new Proceso(1,"Firefox.exe",512,2,2);
+        Proceso aux4 = new Proceso(1,"Minecraft.exe",256,2,3);
+        Proceso aux5 = new Proceso(1,"Premiere.exe",512,2,1);
         Proceso aux6 = new Proceso(1,"Steam.exe",1024,2,3);
         Proceso aux7 = new Proceso(1,"NetBeans.exe",1024,2,5);
         Proceso aux8 = new Proceso(1,"Discord.exe",768,2,2);
         Proceso aux9 = new Proceso(1,"CiscoPacketTracer.exe",512,2,4);
         Proceso aux10 = new Proceso(1,"Spotify.exe",256,2,4);
-        Proceso aux11 = new Proceso(1,"GitKraken.exe",512,2,4);        
+        Proceso aux11 = new Proceso(1,"GitKraken.exe",512,2,1);        
         
         simulacion.agregarProceso(aux2);
         simulacion.agregarProceso(aux3);
@@ -128,6 +128,7 @@ public class FXMLDocumentController implements Initializable {
     private void handleButtonActionSwapInWith(ActionEvent event) {
         if(auxiliarProcesoSeleccionado!=null)
             simulacion.swapInConFragmentacionExterna(auxiliarProcesoSeleccionado, false);
+        simulacion.verificarPrioridad();
         this.refrescar(); 
     }
     
@@ -135,6 +136,7 @@ public class FXMLDocumentController implements Initializable {
     private void handleButtonActionSwapInWithout(ActionEvent event) {
         if(auxiliarProcesoSeleccionado!=null)
             simulacion.swapInSinFragmentacionExterna(auxiliarProcesoSeleccionado, false);
+        simulacion.verificarPrioridad();
         this.refrescar(); 
     }
     
@@ -142,6 +144,7 @@ public class FXMLDocumentController implements Initializable {
     private void handleButtonActionSwapOutWith(ActionEvent event) {
         if(auxiliarProcesoSeleccionado!=null)
             simulacion.swapOutConFragmentacionExterna(auxiliarProcesoSeleccionado, false);       
+        simulacion.verificarPrioridad();
         this.refrescar();        
     }
     
@@ -149,6 +152,7 @@ public class FXMLDocumentController implements Initializable {
     private void handleButtonActionSwapOutWithout(ActionEvent event) {
         if(auxiliarProcesoSeleccionado!=null)
             simulacion.swapOutSinFragmentacionExterna(auxiliarProcesoSeleccionado, false);  
+        simulacion.verificarPrioridad();
         this.refrescar();        
     }    
       
@@ -210,7 +214,7 @@ public class FXMLDocumentController implements Initializable {
                 } else {
                     imageView.setEffect(new InnerShadow(100, aux.getColor()));
                     setGraphic(imageView);
-                    setText(": " + aux.toString() + "\n");
+                    setText(": " + aux.toStringTerciario()+ "\n");
                 }
             }
         });

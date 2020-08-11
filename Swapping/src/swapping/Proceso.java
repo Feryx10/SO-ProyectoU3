@@ -102,6 +102,10 @@ public class Proceso {
     public String toString() {
         return "{" + "ID:" + ID + ", Nombre:" + nombrePrograma + ", Kb:" + this.tamañoFragmento +", T:"+ (this.tiempo-this.tiempoLlevado)+ ", P=" + this.prioridad+'}';
     }
+    
+    public String toStringTerciario() {
+        return "{" + "ID:" + ID + ", Nombre:" + nombrePrograma + ", Kb:" + this.tamaño +", T:"+ (this.tiempo-this.tiempoLlevado)+ ", P=" + this.prioridad+'}';
+    }
 
     public boolean isCompletado() {
         return completado;

@@ -102,11 +102,12 @@ public class Simulacion {
             }                
             else
             {
+                System.out.println("Clusters: "+clusters);
                 siguienteProceso=memoriaPrincipal.getCluster(i).getProceso(0);
                 System.out.println("Proceso 1: "+proceso.getNombrePrograma()+" Tamaño: "+proceso.getTamaño()+" Prioridad: "+proceso.getPrioridad());
                 System.out.println("Proceso 2: "+siguienteProceso.getNombrePrograma()+" Tamaño: "+siguienteProceso.getTamaño()+" Prioridad: "+siguienteProceso.getPrioridad());
                 
-                if(siguienteProceso.getTamaño()>=proceso.getTamaño() && siguienteProceso.getPrioridad()<proceso.getPrioridad())//Ojo: tamaño estandar de un cluster 256mb
+                if(siguienteProceso.getTamaño()>=proceso.getTamaño() && siguienteProceso.getPrioridad()>proceso.getPrioridad())//Ojo: tamaño estandar de un cluster 256mb
                 {
                     System.out.println("xd");
                     if(procesoCandidato==null)
@@ -114,7 +115,7 @@ public class Simulacion {
                         procesoCandidato=siguienteProceso;
                         clusters=1;
                     }
-                    else if(siguienteProceso==procesoCandidato)
+                    else if(siguienteProceso.getNombrePrograma().equals(procesoCandidato.getNombrePrograma()))
                         clusters+=1;
                     else
                         procesoCandidato=null;
@@ -139,7 +140,13 @@ public class Simulacion {
         this.tiempo = tiempo;
     }
     
-    
+    public void verificarPrioridad()
+    {
+        for (int i = 0; i < memoriaRespaldo.getTamanoMemoria(); i++) {
+            if(!memoriaRespaldo.getCluster(i).isEmpty())
+                buscarPrioridadConFragmentacion(memoriaRespaldo.getCluster(i).getProceso(0));
+        }
+    }
     
     public void swapInConFragmentacionExterna(Proceso proceso, boolean nuevo) //Busca N espacios contiguos para procesos con fragmentacion externa
     {                                       
@@ -180,15 +187,7 @@ public class Simulacion {
             else
                 primerCluster = -1;
         }
-        Proceso procesoSwapOut = buscarMenorPrioridadConFragmentacion(proceso);
-        System.out.println(procesoSwapOut);
-        if(procesoSwapOut!=null)
-        {
-            swapOutConFragmentacionExterna(procesoSwapOut, false);
-            swapInConFragmentacionExterna(proceso, false);
-            return;
-        }
-        return;
+        buscarPrioridadConFragmentacion(proceso);
     }
     
     public void swapInSinFragmentacionExterna(Proceso proceso, boolean nuevo)  //Hace swap in para procesos que no requieren espacios contiguos
@@ -218,18 +217,13 @@ public class Simulacion {
                 return;
             }
         }
-        Proceso procesoSwapOut = buscarMenorPrioridadSinFragmentacion(proceso);
-        if(procesoSwapOut!=null)
-        {
-            swapOutSinFragmentacionExterna(procesoSwapOut, false);
-            swapInSinFragmentacionExterna(proceso, false);
-            return;
-        }
-        return;
+        buscarPrioridadSinFragmentacion(proceso);
     }
     
+    
+    
     public void swapOutConFragmentacionExterna(Proceso proceso, boolean nuevo) //Busca N espacios contiguos para procesos con fragmentacion externa
-    {                          
+    {  
         int primerCluster = -1;
         int clusters = 0;
     //    System.out.println("Fragmentos proceso: "+proceso.getCantidadFragmentos());
@@ -270,6 +264,7 @@ public class Simulacion {
     
     public void swapOutSinFragmentacionExterna(Proceso proceso, boolean nuevo)  //Hace swap in para procesos que no requieren espacios contiguos
     {
+        
         int [] clustersDisponibles = new int [proceso.getCantidadFragmentos()];
         int puntero=0;
         
@@ -296,6 +291,30 @@ public class Simulacion {
             }
         }
         System.out.println("no hay espacio");
+    }
+    
+    public void buscarPrioridadConFragmentacion(Proceso proceso)
+    {
+        Proceso procesoSwapOut = buscarMenorPrioridadConFragmentacion(proceso);
+        if(procesoSwapOut!=null)
+        {
+            swapOutConFragmentacionExterna(procesoSwapOut, false);
+            swapInConFragmentacionExterna(proceso, false);
+            return;
+        }
+        return;
+    }
+    
+    public void buscarPrioridadSinFragmentacion(Proceso proceso)
+    {
+        Proceso procesoSwapOut = buscarMenorPrioridadSinFragmentacion(proceso);
+        if(procesoSwapOut!=null)
+        {
+            swapOutSinFragmentacionExterna(procesoSwapOut, false);
+            swapInSinFragmentacionExterna(proceso, false);
+            return;
+        }
+        return;
     }
     
 }
