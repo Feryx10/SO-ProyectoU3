@@ -16,6 +16,11 @@
  */
 package swapping;
 
+import java.util.Random;
+import javafx.scene.paint.Color;
+
+
+
 /**
  *
  * @author Grupo 1
@@ -26,6 +31,8 @@ public class Proceso {
     private boolean completado;
     private boolean iniciado;
     private int tamaño,tamañoFragmento, tiempo, cantidadFragmentos;    
+    private final Color color;
+    private int colorHash;
 
     public Proceso(int ID, String nombrePrograma, int tamaño, int tiempo) {
         this.ID = ID;
@@ -35,6 +42,11 @@ public class Proceso {
         this.completado = false;
         this.iniciado = false;
         calcularCantidadFragmentos();
+        
+        this.colorHash = (int) Math.sqrt(nombrePrograma.hashCode()*nombrePrograma.hashCode());
+        while(this.colorHash>255)
+            this.colorHash = this.colorHash/2;
+        this.color = Color.rgb(this.colorHash, this.colorHash, this.colorHash);
     }
     
     public void calcularCantidadFragmentos()
@@ -104,5 +116,8 @@ public class Proceso {
         this.iniciado = iniciado;
     }
     
+    public Color getColor(){
+        return color;
+    }   
            
 }

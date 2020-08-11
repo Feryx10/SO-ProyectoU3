@@ -9,43 +9,65 @@
 <?import javafx.scene.shape.Polygon?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane id="AnchorPane" prefHeight="550.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="swapping.FXMLDocumentController">
+<AnchorPane id="AnchorPane" prefHeight="795.0" prefWidth="1235.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="swapping.FXMLDocumentController">
     <children>
-      <Polygon fill="#1f93ffe5" layoutX="365.0" layoutY="68.0" points="-50.0, 40.0, -178.0, -31.0, -10.0, -31.0" stroke="TRANSPARENT" strokeType="INSIDE">
+      <Polygon fill="#1f93ffe5" layoutX="387.0" layoutY="41.0" points="-50.0, 40.0, -178.0, -31.0, -10.0, -31.0" stroke="TRANSPARENT" strokeType="INSIDE">
          <effect>
             <BoxBlur width="32.32" />
          </effect>
       </Polygon>
-      <Polygon fill="#1f93ffe7" layoutX="785.0" layoutY="68.0" points="-50.0, 40.0, -178.0, -31.0, -10.0, -31.0" stroke="TRANSPARENT" strokeType="INSIDE">
+      <Polygon fill="#1f93ffe7" layoutX="896.0" layoutY="41.0" points="-50.0, 40.0, -178.0, -31.0, -10.0, -31.0" stroke="TRANSPARENT" strokeType="INSIDE">
          <effect>
             <BoxBlur width="32.32" />
          </effect>
       </Polygon>
-        <Button fx:id="b_swapIn" layoutX="150.0" layoutY="501.0" onAction="#handleButtonActionSwapIn" text="Swap In">
+        <Button fx:id="b_swapInWith" layoutX="111.0" layoutY="699.0" onAction="#handleButtonActionSwapIn" text="Swap In Con Fragmentación">
          <effect>
             <DropShadow />
          </effect></Button>
-      <Button fx:id="b_swapOut" layoutX="587.0" layoutY="501.0" onAction="#handleButtonActionSwapOut" text="Swap Out">
+      <Button fx:id="b_swapOut" layoutX="631.0" layoutY="699.0" onAction="#handleButtonActionSwapOut" text="Swap Out Con Fragmentación">
          <effect>
             <DropShadow />
          </effect>
       </Button>
-      <Button fx:id="b_configSim" layoutX="343.0" layoutY="501.0" onAction="#handleButtonActionConfigSim" text="Iniciar Simulación">
+      <Button fx:id="b_configSim" layoutX="397.0" layoutY="525.0" onAction="#handleButtonActionConfigSim" text="Iniciar Simulación">
          <effect>
             <DropShadow />
          </effect>
       </Button>
-      <ListView fx:id="listaMemoriaPrincipal" layoutX="37.0" layoutY="58.0" prefHeight="426.0" prefWidth="300.0">
+      <ListView fx:id="listaMemoriaPrincipal" layoutX="28.0" layoutY="28.0" prefHeight="645.0" prefWidth="330.0">
          <effect>
             <DropShadow />
          </effect></ListView>
-      <ListView fx:id="listaMemoriaSecundaria" layoutX="459.0" layoutY="58.0" prefHeight="426.0" prefWidth="300.0">
+      <ListView fx:id="listaMemoriaSecundaria" layoutX="539.0" layoutY="28.0" prefHeight="645.0" prefWidth="330.0">
          <effect>
             <DropShadow />
          </effect></ListView>
-      <Text fill="WHITE" layoutX="248.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Memoria Principal" />
-      <Text fill="WHITE" layoutX="655.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Memoria Secundaria" />
-      <Label layoutX="386.0" layoutY="443.0" text="Label" />
+      <Text fill="WHITE" layoutX="270.0" layoutY="23.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Memoria Principal" />
+      <Text fill="WHITE" layoutX="766.0" layoutY="23.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Memoria Secundaria" />
+      <Label fx:id="timer" layoutX="436.0" layoutY="448.0" text="Timer" />
+      <Button fx:id="b_swapInWithout" layoutX="113.0" layoutY="745.0" mnemonicParsing="false" text="Swap In Sin Fragmentación">
+         <effect>
+            <DropShadow />
+         </effect>
+      </Button>
+      <Button layoutX="633.0" layoutY="745.0" mnemonicParsing="false" text="Swap Out Sin Fragmentación">
+         <effect>
+            <DropShadow />
+         </effect>
+      </Button>
+      <Button layoutX="400.0" layoutY="583.0" mnemonicParsing="false" text="Avanzar Tiempo" />
+      <Polygon fill="#1f93ffe7" layoutX="1220.0" layoutY="77.0" points="-50.0, 40.0, -178.0, -31.0, -10.0, -31.0" stroke="TRANSPARENT" strokeType="INSIDE">
+         <effect>
+            <BoxBlur width="32.32" />
+         </effect>
+      </Polygon>
+      <ListView fx:id="colaDeProcesos" layoutX="910.0" layoutY="64.0" prefHeight="645.0" prefWidth="283.0">
+         <effect>
+            <DropShadow />
+         </effect>
+      </ListView>
+      <Text fill="WHITE" layoutX="1090.0" layoutY="59.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Cola de procesos" />
     </children>
    <effect>
       <DropShadow />

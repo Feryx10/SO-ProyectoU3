@@ -17,6 +17,7 @@
 package swapping;
 
 import java.util.ArrayList;
+import javafx.scene.paint.Color;
 
 /**
  *
@@ -28,11 +29,13 @@ public class Cluster {
     private int espacioDisponible;
     private final ArrayList<Proceso> procesos = new ArrayList<>();
     private boolean ocupado;
+    private Color color;
 
     public Cluster(int tamaño) {
         this.tamaño = tamaño;
         this.espacioDisponible = tamaño;
         this.ocupado = false;
+        this.color = Color.rgb(255, 255, 255);
     }    
     
     public int getTamano()
@@ -59,9 +62,10 @@ public class Cluster {
         return this.espacioDisponible;
     }
     
-    public void addProceso (Proceso proceso){
+    public void addProceso (Proceso proceso){        
         procesos.add(proceso);
         calcularEspacio();
+        this.color = proceso.getColor();
     }    
     
     private void calcularEspacio()
@@ -79,6 +83,10 @@ public class Cluster {
     {
         procesos.clear();
         this.espacioDisponible=this.tamaño;
+    }
+    
+    public Color getColor(){
+        return this.color;
     }
     
     @Override
