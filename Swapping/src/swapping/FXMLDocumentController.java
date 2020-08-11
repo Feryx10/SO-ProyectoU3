@@ -121,6 +121,7 @@ public class FXMLDocumentController implements Initializable {
     private void handleButtonActionTiempo(ActionEvent event) {
         simulacion.avanzarTiempo();
         this.timer.setText("Timer: "+ simulacion.getTiempo() +" segundos.");
+        simulacion.verificarPrioridad();
         this.refrescar();
     }
     
@@ -128,7 +129,7 @@ public class FXMLDocumentController implements Initializable {
     private void handleButtonActionSwapInWith(ActionEvent event) {
         if(auxiliarProcesoSeleccionado!=null)
             simulacion.swapInConFragmentacionExterna(auxiliarProcesoSeleccionado, false);
-        simulacion.verificarPrioridad();
+        simulacion.removerProceso(auxiliarProcesoSeleccionado);
         this.refrescar(); 
     }
     
@@ -136,7 +137,7 @@ public class FXMLDocumentController implements Initializable {
     private void handleButtonActionSwapInWithout(ActionEvent event) {
         if(auxiliarProcesoSeleccionado!=null)
             simulacion.swapInSinFragmentacionExterna(auxiliarProcesoSeleccionado, false);
-        simulacion.verificarPrioridad();
+        simulacion.removerProceso(auxiliarProcesoSeleccionado);
         this.refrescar(); 
     }
     
@@ -144,7 +145,7 @@ public class FXMLDocumentController implements Initializable {
     private void handleButtonActionSwapOutWith(ActionEvent event) {
         if(auxiliarProcesoSeleccionado!=null)
             simulacion.swapOutConFragmentacionExterna(auxiliarProcesoSeleccionado, false);       
-        simulacion.verificarPrioridad();
+        simulacion.removerProceso(auxiliarProcesoSeleccionado);
         this.refrescar();        
     }
     
@@ -152,7 +153,7 @@ public class FXMLDocumentController implements Initializable {
     private void handleButtonActionSwapOutWithout(ActionEvent event) {
         if(auxiliarProcesoSeleccionado!=null)
             simulacion.swapOutSinFragmentacionExterna(auxiliarProcesoSeleccionado, false);  
-        simulacion.verificarPrioridad();
+        simulacion.removerProceso(auxiliarProcesoSeleccionado);
         this.refrescar();        
     }    
       

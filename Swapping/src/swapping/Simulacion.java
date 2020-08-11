@@ -76,15 +76,29 @@ public class Simulacion {
     
     public Proceso buscarMenorPrioridadSinFragmentacion(Proceso proceso)
     {
+        int vacios=0;
+        for (int i = 0; i < memoriaPrincipal.getTamanoMemoria(); i++) {
+            if(memoriaPrincipal.getCluster(i).isEmpty())
+                vacios++;
+        }
         Proceso procesoCandidato;
         for (int i = 0; i < memoriaPrincipal.getTamanoMemoria(); i++) {
             procesoCandidato = memoriaPrincipal.getCluster(i).getProceso(0);
-            if (proceso.getPrioridad()<procesoCandidato.getPrioridad() && procesoCandidato.getTamaño() >= proceso.getTamaño())
+            if (procesoCandidato!=null && proceso.getPrioridad()<procesoCandidato.getPrioridad() && procesoCandidato.getTamaño()+vacios >= proceso.getTamaño())
             {
                 return procesoCandidato;
             }
         }
         return null;
+    }
+    
+    public void removerProceso(Proceso proceso)
+    {
+        for (int i = 0; i < procesos.size(); i++) 
+        {
+            if(proceso.getNombrePrograma().equals(procesos.get(i).getNombrePrograma()))
+                procesos.remove(i);
+        }
     }
     
     public Proceso buscarMenorPrioridadConFragmentacion(Proceso proceso)
@@ -143,8 +157,10 @@ public class Simulacion {
     public void verificarPrioridad()
     {
         for (int i = 0; i < memoriaRespaldo.getTamanoMemoria(); i++) {
-            if(!memoriaRespaldo.getCluster(i).isEmpty())
-                buscarPrioridadConFragmentacion(memoriaRespaldo.getCluster(i).getProceso(0));
+            if(!memoriaRespaldo.getCluster(i).isEmpty()){
+                swapInConFragmentacionExterna(memoriaRespaldo.getCluster(i).getProceso(0), false);
+            }
+            
         }
     }
     

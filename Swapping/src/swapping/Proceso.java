@@ -48,7 +48,7 @@ public class Proceso {
         if(this.nombrePrograma.equals("Minecraft.exe"))
             this.color = Color.MAGENTA;       
         if(this.nombrePrograma.equals("Premiere.exe"))
-            this.color = Color.ALICEBLUE;    
+            this.color = Color.LIGHTPINK;    
         if(this.nombrePrograma.equals("Steam.exe"))
             this.color = Color.CHARTREUSE;    
         if(this.nombrePrograma.equals("NetBeans.exe"))
