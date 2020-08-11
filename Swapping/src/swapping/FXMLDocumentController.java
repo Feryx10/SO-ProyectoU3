@@ -20,7 +20,6 @@ package swapping;
 import java.awt.event.MouseEvent;
 import java.net.URL;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -34,6 +33,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.effect.InnerShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 
 /**
  *
@@ -42,8 +42,10 @@ import javafx.scene.image.ImageView;
 public class FXMLDocumentController implements Initializable {
     
     @FXML
+    AnchorPane panel;
+    @FXML
     Button b_swapInWith;    
-     @FXML
+    @FXML
     Button b_swapInWithout;  
     @FXML
     Button b_swapOutWith;    
@@ -61,56 +63,51 @@ public class FXMLDocumentController implements Initializable {
     ListView listaMemoriaSecundaria; 
    
     Cluster auxiliarClusterSeleccionado = null;
-    Simulacion aux1 = new Simulacion();
+    Simulacion simulacion = new Simulacion();
     Proceso aux2 = new Proceso(1,"Google.exe",1024,2,1);
     Proceso aux3 = new Proceso(1,"Firefox.exe",512,2,1);
     Proceso aux4 = new Proceso(1,"Minecraft.exe",256,2,1);
-    Thread hilo;       
+    volatile int segundos = 1;
+    volatile boolean ejecutar = true;
+    Thread hilo;  
         
-    Runnable runnable = new Runnable() {
-        String segundos;
+    Runnable runnable = new Runnable() {  
         @Override
         public void run() {            
-            while (true) {
-                segundos = String.valueOf(Calendar.getInstance().get(Calendar.SECOND));                
+            while (ejecutar) {
+                //segundos = String.valueOf(Calendar.getInstance().get(Calendar.SECOND));                              
             }
-        }
-        
-        public String getTime() {
-            return segundos;
-        }
+        }        
     };
     
     public void runTimer(){      
         hilo = new Thread(runnable);
-        hilo.start();      
-       
-    }
+        hilo.start();                      
+    }   
 
     @FXML
     private void handleButtonActionConfigSim(ActionEvent event) {        
         //aux1.procesos.add(aux2);
-        aux1.swapInConFragmentacionExterna(aux2, true);
-        aux1.swapInConFragmentacionExterna(aux4, true);
-        aux1.swapInConFragmentacionExterna(aux3, true);
-        aux1.swapInConFragmentacionExterna(aux4, true);
-        this.runTimer();
+        simulacion.swapInConFragmentacionExterna(aux2, true);
+        simulacion.swapInConFragmentacionExterna(aux4, true);
+        simulacion.swapInConFragmentacionExterna(aux3, true);
+        simulacion.swapInConFragmentacionExterna(aux4, true);                
         this.refrescar();         
     }
     
     @FXML
     private void handleButtonActionSwapIn(ActionEvent event) {
-        
+        this.refrescar(); 
     }
     
     @FXML
     private void handleButtonActionSwapOut(ActionEvent event) {
-        aux1.swapOutConFragmentacionExterna(aux2, false);        
+        simulacion.swapOutConFragmentacionExterna(aux2, false);        
         this.refrescar();        
     }
     
     @FXML
-    public void seleccionTweet(MouseEvent event){        
+    public void seleccionCluster(MouseEvent event){        
         auxiliarClusterSeleccionado =  (Cluster) this.listaMemoriaPrincipal.getSelectionModel().getSelectedItem();       
         //Clipboard cb = Toolkit.getDefaultToolkit().getSystemClipboard();
         //cb.setContents(auxiliarSeleccionado.toString(), null);
@@ -118,23 +115,25 @@ public class FXMLDocumentController implements Initializable {
     
     
     private void refrescar(){      
-        ObservableList<Cluster> listaObservableUno = FXCollections.observableList(Arrays.asList(this.aux1.memoriaPrincipal.getClusters()));            
-        this.listaMemoriaPrincipal.setItems(listaObservableUno);
+        this.timer.setText("Timer: "+ String.valueOf(segundos++) +" segundos.");
+        
+        ObservableList<Proceso> colaDeProcesos = FXCollections.observableArrayList(this.simulacion.procesos);            
+        this.listaMemoriaPrincipal.setItems(colaDeProcesos);
         this.listaMemoriaPrincipal.refresh();
  
-        //ObservableList<Cluster> listaObservableUno = FXCollections.observableList(Arrays.asList(this.aux1.memoriaPrincipal.getClusters()));            
+        ObservableList<Cluster> listaObservableUno = FXCollections.observableList(Arrays.asList(this.simulacion.memoriaPrincipal.getClusters()));            
         this.listaMemoriaPrincipal.setItems(listaObservableUno);
         this.listaMemoriaPrincipal.refresh();
         
-        ObservableList<Cluster> listaObservableDos = FXCollections.observableList(Arrays.asList(this.aux1.memoriaRespaldo.getClusters()));            
+        ObservableList<Cluster> listaObservableDos = FXCollections.observableList(Arrays.asList(this.simulacion.memoriaRespaldo.getClusters()));            
         this.listaMemoriaSecundaria.setItems(listaObservableDos);
         this.listaMemoriaSecundaria.refresh();
         
     }  
     
     @Override
-    public void initialize(URL url, ResourceBundle rb) {   
-        this.listaMemoriaPrincipal.setCellFactory(param -> new ListCell<Proceso>() {
+    public void initialize(URL url, ResourceBundle rb) {          
+        this.colaDeProcesos.setCellFactory(param -> new ListCell<Proceso>() {
             private final ImageView imageView = new ImageView(new Image(this.getClass().getResource("color.png").toString()));
             @Override
             public void updateItem(Proceso aux, boolean empty) {
