@@ -131,7 +131,7 @@ public class Memoria {
         Proceso procesoCandidato;
         for (int i = 0; i < this.tamanoMemoria; i++) {
             procesoCandidato = this.memoria[i].getProceso(0);
-            if(procesoCandidato.getNombrePrograma().equals(proceso.getNombrePrograma()))
+            if(procesoCandidato!= null && procesoCandidato.getNombrePrograma().equals(proceso.getNombrePrograma()))
                 this.memoria[i].limpiarCluster();
         }
     }

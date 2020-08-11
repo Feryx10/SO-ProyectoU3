@@ -38,24 +38,30 @@ public class Simulacion {
         
     }
     
-    public void iniciarSimulacion()
+    public void avanzarTiempo()
     {
-        int i;
-        while(procesosTerminados-1!=procesos.size())
-        {
-            i=buscarInicioProceso();
-            if(i!=-1)
+        for (int i = 0; i < memoriaPrincipal.getTamanoMemoria(); i++) {
+            if(!memoriaPrincipal.getCluster(i).isEmpty())
             {
-                if(fragmentacionExterna)
+                memoriaPrincipal.getCluster(i).getProceso(0).setTiempoLlevado(memoriaPrincipal.getCluster(i).getProceso(0).getTiempoLlevado()+1);
+                if(memoriaPrincipal.getCluster(i).getProceso(0).getTiempo()==memoriaPrincipal.getCluster(i).getProceso(0).getTiempoLlevado())
                 {
-                    swapInConFragmentacionExterna(procesos.get(i), true);
-                }
-                else
-                {
-                    swapInSinFragmentacionExterna(procesos.get(i), true);
+                    memoriaPrincipal.removerProceso(memoriaPrincipal.getCluster(i).getProceso(0));
                 }
             }
         }
+        this.tiempo++;
+    }
+    
+    public void agregarProceso(Proceso proceso)
+    {
+        procesos.add(proceso);
+        System.out.println(procesos.size());
+    }
+    
+    public void limpiarLista()
+    {
+        
     }
     
     
@@ -124,6 +130,16 @@ public class Simulacion {
         }
         return null;
     }
+
+    public int getTiempo() {
+        return tiempo;
+    }
+
+    public void setTiempo(int tiempo) {
+        this.tiempo = tiempo;
+    }
+    
+    
     
     public void swapInConFragmentacionExterna(Proceso proceso, boolean nuevo) //Busca N espacios contiguos para procesos con fragmentacion externa
     {                                       
@@ -154,8 +170,8 @@ public class Simulacion {
                     if(!nuevo)
                     {
                         for (int j = 0; j < memoriaRespaldo.getTamanoMemoria(); j++) {
-                        if(memoriaRespaldo.getCluster(i).getProceso(proceso.getNombrePrograma()) != null)
-                            memoriaRespaldo.getCluster(i).limpiarCluster();
+                        if(memoriaRespaldo.getCluster(j).getProceso(proceso.getNombrePrograma()) != null)
+                            memoriaRespaldo.getCluster(j).limpiarCluster();
                         }
                     }
                     return;

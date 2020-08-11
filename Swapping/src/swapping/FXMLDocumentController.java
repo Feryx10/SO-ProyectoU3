@@ -65,12 +65,17 @@ public class FXMLDocumentController implements Initializable {
     Cluster auxiliarClusterSeleccionado = null;
     Proceso auxiliarProcesoSeleccionado = null;
     Simulacion simulacion = new Simulacion();
-    Proceso aux2 = new Proceso(1,"Google.exe",1024,2,1);
-    Proceso aux3 = new Proceso(1,"Firefox.exe",512,2,1);
-    Proceso aux4 = new Proceso(1,"Minecraft.exe",256,2,1);
+    
+    
     volatile int segundos = 1;
     volatile boolean ejecutar = true;
     Thread hilo;  
+
+    public FXMLDocumentController() {
+        cargarProgramas();
+    }
+    
+    
         
     Runnable runnable = new Runnable() {  
         @Override
@@ -81,46 +86,62 @@ public class FXMLDocumentController implements Initializable {
         }        
     };
     
+    public void cargarProgramas()
+    {
+        Proceso aux2 = new Proceso(1,"Google.exe",1024,2,1);
+        Proceso aux3 = new Proceso(1,"Firefox.exe",512,2,1);
+        Proceso aux4 = new Proceso(1,"Minecraft.exe",256,2,1);
+        
+        simulacion.agregarProceso(aux2);
+        simulacion.agregarProceso(aux3);
+        simulacion.agregarProceso(aux4);
+
+    }
+    
     public void runTimer(){      
         hilo = new Thread(runnable);
         hilo.start();                      
     }   
 
     @FXML
-    private void handleButtonActionTiempo(ActionEvent event) {        
-        //aux1.procesos.add(aux2);
-        simulacion.swapInConFragmentacionExterna(aux2, true);
-        simulacion.swapInConFragmentacionExterna(aux4, true);
-        simulacion.swapInConFragmentacionExterna(aux3, true);
-        simulacion.swapInConFragmentacionExterna(aux4, true);                
-        this.refrescar();         
+    private void handleButtonActionTiempo(ActionEvent event) {
+        simulacion.avanzarTiempo();
+        this.timer.setText("Timer: "+ simulacion.getTiempo() +" segundos.");
+        this.refrescar();
     }
     
     @FXML
     private void handleButtonActionSwapInWith(ActionEvent event) {
+        if(auxiliarProcesoSeleccionado!=null)
+            simulacion.swapInConFragmentacionExterna(auxiliarProcesoSeleccionado, false);
         this.refrescar(); 
     }
     
     @FXML
     private void handleButtonActionSwapInWithout(ActionEvent event) {
+        if(auxiliarProcesoSeleccionado!=null)
+            simulacion.swapInSinFragmentacionExterna(auxiliarProcesoSeleccionado, false);
         this.refrescar(); 
     }
     
     @FXML
     private void handleButtonActionSwapOutWith(ActionEvent event) {
-        simulacion.swapOutConFragmentacionExterna(aux2, false);        
+        if(auxiliarProcesoSeleccionado!=null)
+            simulacion.swapOutConFragmentacionExterna(auxiliarProcesoSeleccionado, false);       
         this.refrescar();        
     }
     
     @FXML
     private void handleButtonActionSwapOutWithout(ActionEvent event) {
-        simulacion.swapOutConFragmentacionExterna(aux2, false);        
+        if(auxiliarProcesoSeleccionado!=null)
+            simulacion.swapOutSinFragmentacionExterna(auxiliarProcesoSeleccionado, false);  
         this.refrescar();        
     }    
       
     @FXML
     public void seleccionClusterPrimaria(Event event){        
         auxiliarClusterSeleccionado = (Cluster) this.listaMemoriaPrincipal.getSelectionModel().getSelectedItem();     
+        auxiliarProcesoSeleccionado = auxiliarClusterSeleccionado.getProceso(0);
         System.out.println(auxiliarClusterSeleccionado.getProceso(0));
         //Clipboard cb = Toolkit.getDefaultToolkit().getSystemClipboard();
         //cb.setContents(auxiliarSeleccionado.toString(), null);
@@ -129,6 +150,7 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     public void seleccionClusterSecundaria(Event event){        
         auxiliarClusterSeleccionado = (Cluster) this.listaMemoriaSecundaria.getSelectionModel().getSelectedItem();       
+        auxiliarProcesoSeleccionado = auxiliarClusterSeleccionado.getProceso(0);
         System.out.println(auxiliarClusterSeleccionado.getProceso(0));
         //Clipboard cb = Toolkit.getDefaultToolkit().getSystemClipboard();
         //cb.setContents(auxiliarSeleccionado.toString(), null);
@@ -143,13 +165,14 @@ public class FXMLDocumentController implements Initializable {
     }  
     
     private void refrescar(){      
-        this.timer.setText("Timer: "+ String.valueOf(segundos++) +" segundos.");
+        this.timer.setText("Timer: "+ simulacion.getTiempo() +" segundos.");
         
         this.auxiliarClusterSeleccionado = null;
+        this.auxiliarProcesoSeleccionado = null;
         
         ObservableList<Proceso> colaDeProcesos = FXCollections.observableArrayList(this.simulacion.procesos);            
-        this.listaMemoriaPrincipal.setItems(colaDeProcesos);
-        this.listaMemoriaPrincipal.refresh();
+        this.colaDeProcesos.setItems(colaDeProcesos);
+        this.colaDeProcesos.refresh();
  
         ObservableList<Cluster> listaObservableUno = FXCollections.observableList(Arrays.asList(this.simulacion.memoriaPrincipal.getClusters()));            
         this.listaMemoriaPrincipal.setItems(listaObservableUno);
