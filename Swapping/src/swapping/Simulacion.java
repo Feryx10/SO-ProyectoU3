@@ -30,7 +30,7 @@ public class Simulacion {
     Memoria memoriaRespaldo;
     int tiempo = 0;
     int procesosTerminados = 0;
-    ArrayList<Proceso> procesos = new ArrayList<>();
+    ArrayList<Proceso> procesos = new ArrayList<Proceso>();
 
     public Simulacion() {
         this.memoriaPrincipal = new Memoria(4096);
@@ -57,6 +57,7 @@ public class Simulacion {
             }
         }
     }
+    
     
     public int buscarInicioProceso()//Busca los procesos que deben iniciar en this.tiempo
     {
