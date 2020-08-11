@@ -86,7 +86,7 @@ public class FXMLDocumentController implements Initializable {
     }   
 
     @FXML
-    private void handleButtonActionConfigSim(ActionEvent event) {        
+    private void handleButtonActionTiempo(ActionEvent event) {        
         //aux1.procesos.add(aux2);
         simulacion.swapInConFragmentacionExterna(aux2, true);
         simulacion.swapInConFragmentacionExterna(aux4, true);
@@ -96,26 +96,38 @@ public class FXMLDocumentController implements Initializable {
     }
     
     @FXML
-    private void handleButtonActionSwapIn(ActionEvent event) {
+    private void handleButtonActionSwapInWith(ActionEvent event) {
         this.refrescar(); 
     }
     
     @FXML
-    private void handleButtonActionSwapOut(ActionEvent event) {
+    private void handleButtonActionSwapInWithout(ActionEvent event) {
+        this.refrescar(); 
+    }
+    
+    @FXML
+    private void handleButtonActionSwapOutWith(ActionEvent event) {
         simulacion.swapOutConFragmentacionExterna(aux2, false);        
         this.refrescar();        
     }
     
     @FXML
+    private void handleButtonActionSwapOutWithout(ActionEvent event) {
+        simulacion.swapOutConFragmentacionExterna(aux2, false);        
+        this.refrescar();        
+    }    
+      
+    @FXML
     public void seleccionCluster(MouseEvent event){        
-        auxiliarClusterSeleccionado =  (Cluster) this.listaMemoriaPrincipal.getSelectionModel().getSelectedItem();       
+        auxiliarClusterSeleccionado = (Cluster) this.listaMemoriaPrincipal.getSelectionModel().getSelectedItem();       
         //Clipboard cb = Toolkit.getDefaultToolkit().getSystemClipboard();
         //cb.setContents(auxiliarSeleccionado.toString(), null);
-    }
-    
+    }    
     
     private void refrescar(){      
         this.timer.setText("Timer: "+ String.valueOf(segundos++) +" segundos.");
+        
+        this.auxiliarClusterSeleccionado = null;
         
         ObservableList<Proceso> colaDeProcesos = FXCollections.observableArrayList(this.simulacion.procesos);            
         this.listaMemoriaPrincipal.setItems(colaDeProcesos);
@@ -127,8 +139,7 @@ public class FXMLDocumentController implements Initializable {
         
         ObservableList<Cluster> listaObservableDos = FXCollections.observableList(Arrays.asList(this.simulacion.memoriaRespaldo.getClusters()));            
         this.listaMemoriaSecundaria.setItems(listaObservableDos);
-        this.listaMemoriaSecundaria.refresh();
-        
+        this.listaMemoriaSecundaria.refresh();        
     }  
     
     @Override
@@ -180,7 +191,6 @@ public class FXMLDocumentController implements Initializable {
                 }
             }
         });             
-        
         this.refrescar(); 
     }    
     
