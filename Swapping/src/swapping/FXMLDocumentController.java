@@ -17,13 +17,13 @@
 package swapping;
 
 
-import java.awt.event.MouseEvent;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -63,6 +63,7 @@ public class FXMLDocumentController implements Initializable {
     ListView listaMemoriaSecundaria; 
    
     Cluster auxiliarClusterSeleccionado = null;
+    Proceso auxiliarProcesoSeleccionado = null;
     Simulacion simulacion = new Simulacion();
     Proceso aux2 = new Proceso(1,"Google.exe",1024,2,1);
     Proceso aux3 = new Proceso(1,"Firefox.exe",512,2,1);
@@ -118,11 +119,28 @@ public class FXMLDocumentController implements Initializable {
     }    
       
     @FXML
-    public void seleccionCluster(MouseEvent event){        
-        auxiliarClusterSeleccionado = (Cluster) this.listaMemoriaPrincipal.getSelectionModel().getSelectedItem();       
+    public void seleccionClusterPrimaria(Event event){        
+        auxiliarClusterSeleccionado = (Cluster) this.listaMemoriaPrincipal.getSelectionModel().getSelectedItem();     
+        System.out.println(auxiliarClusterSeleccionado.getProceso(0));
         //Clipboard cb = Toolkit.getDefaultToolkit().getSystemClipboard();
         //cb.setContents(auxiliarSeleccionado.toString(), null);
     }    
+    
+    @FXML
+    public void seleccionClusterSecundaria(Event event){        
+        auxiliarClusterSeleccionado = (Cluster) this.listaMemoriaSecundaria.getSelectionModel().getSelectedItem();       
+        System.out.println(auxiliarClusterSeleccionado.getProceso(0));
+        //Clipboard cb = Toolkit.getDefaultToolkit().getSystemClipboard();
+        //cb.setContents(auxiliarSeleccionado.toString(), null);
+    }  
+    
+    @FXML
+    public void seleccionClusterProcesos(Event event){        
+        auxiliarProcesoSeleccionado = (Proceso) this.colaDeProcesos.getSelectionModel().getSelectedItem();       
+        System.out.println(auxiliarProcesoSeleccionado);
+        //Clipboard cb = Toolkit.getDefaultToolkit().getSystemClipboard();
+        //cb.setContents(auxiliarSeleccionado.toString(), null);
+    }  
     
     private void refrescar(){      
         this.timer.setText("Timer: "+ String.valueOf(segundos++) +" segundos.");

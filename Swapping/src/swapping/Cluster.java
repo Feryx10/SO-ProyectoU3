@@ -59,6 +59,8 @@ public class Cluster {
     
     public Proceso getProceso (int i)
     {
+        if(isEmpty())
+            return null;
         return procesos.get(i);
     }
     
