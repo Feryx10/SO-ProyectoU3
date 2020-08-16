@@ -192,7 +192,7 @@ public class FXMLDocumentController implements Initializable {
         this.auxiliarProcesoSeleccionado = null;
         
         
-        ObservableList<Proceso> ocolaDePrioridad = FXCollections.observableArrayList(this.simulacion.procesos);      //Edita aqui      
+        ObservableList<Proceso> ocolaDePrioridad = FXCollections.observableArrayList(this.simulacion.listaDeProcesos);      //Edita aqui      
         this.colaDePrioridad.setItems(ocolaDePrioridad);
         this.colaDePrioridad.refresh();
         

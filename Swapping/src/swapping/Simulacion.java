@@ -60,6 +60,11 @@ public class Simulacion {
         
     }
     
+    public void verificarColaPrioridad()
+    {
+        
+    }
+    
     public void swapInFragmeto(Proceso proceso)
     {
         for (int i = 0; i < memoriaRespaldo.getTamanoMemoria(); i++) {
