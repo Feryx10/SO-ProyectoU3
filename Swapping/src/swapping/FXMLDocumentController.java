@@ -58,6 +58,8 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     ListView colaDeProcesos;
     @FXML
+    ListView colaDePrioridad;
+    @FXML
     ListView listaMemoriaPrincipal;
     @FXML
     ListView listaMemoriaSecundaria; 
@@ -189,8 +191,14 @@ public class FXMLDocumentController implements Initializable {
         this.auxiliarClusterSeleccionado = null;
         this.auxiliarProcesoSeleccionado = null;
         
-        ObservableList<Proceso> colaDeProcesos = FXCollections.observableArrayList(this.simulacion.procesos);            
-        this.colaDeProcesos.setItems(colaDeProcesos);
+        
+        ObservableList<Proceso> ocolaDePrioridad = FXCollections.observableArrayList(this.simulacion.procesos);      //Edita aqui      
+        this.colaDePrioridad.setItems(ocolaDePrioridad);
+        this.colaDePrioridad.refresh();
+        
+        
+        ObservableList<Proceso> ocolaDeProcesos = FXCollections.observableArrayList(this.simulacion.procesos);            
+        this.colaDeProcesos.setItems(ocolaDeProcesos);
         this.colaDeProcesos.refresh();
  
         ObservableList<Cluster> listaObservableUno = FXCollections.observableList(Arrays.asList(this.simulacion.memoriaPrincipal.getClusters()));            
@@ -203,7 +211,23 @@ public class FXMLDocumentController implements Initializable {
     }  
     
     @Override
-    public void initialize(URL url, ResourceBundle rb) {          
+    public void initialize(URL url, ResourceBundle rb) {    
+        this.colaDePrioridad.setCellFactory(param -> new ListCell<Proceso>() {
+            private final ImageView imageView = new ImageView(new Image(this.getClass().getResource("color.png").toString()));
+            @Override
+            public void updateItem(Proceso aux, boolean empty) {
+                super.updateItem(aux, empty);
+                if (empty) {
+                    setText(null);
+                    setGraphic(null);
+                } else {
+                    imageView.setEffect(new InnerShadow(100, aux.getColor()));
+                    setGraphic(imageView);
+                    setText(": " + aux.toStringTerciario()+ "\n");
+                }
+            }
+        });
+        
         this.colaDeProcesos.setCellFactory(param -> new ListCell<Proceso>() {
             private final ImageView imageView = new ImageView(new Image(this.getClass().getResource("color.png").toString()));
             @Override

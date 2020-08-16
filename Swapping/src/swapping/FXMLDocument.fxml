@@ -52,17 +52,24 @@
          </effect>
       </Button>
       <Button fx:id="b_configSim" layoutX="400.0" layoutY="583.0" mnemonicParsing="false" onAction="#handleButtonActionTiempo" text="Avanzar Tiempo" />
-      <Polygon fill="#1f93ffe7" layoutX="1220.0" layoutY="77.0" points="-50.0, 40.0, -178.0, -31.0, -10.0, -31.0" stroke="TRANSPARENT" strokeType="INSIDE">
+      <Polygon fill="#1f93ffe7" layoutX="1220.0" layoutY="50.0" points="-50.0, 40.0, -178.0, -31.0, -10.0, -31.0" stroke="TRANSPARENT" strokeType="INSIDE">
          <effect>
             <BoxBlur width="32.32" />
          </effect>
       </Polygon>
-      <ListView fx:id="colaDeProcesos" layoutX="897.0" layoutY="64.0" onMousePressed="#seleccionClusterProcesos" prefHeight="645.0" prefWidth="296.0">
+      <ListView fx:id="colaDeProcesos" layoutX="897.0" layoutY="36.0" onMousePressed="#seleccionClusterProcesos" prefHeight="295.0" prefWidth="296.0">
          <effect>
             <DropShadow />
          </effect>
       </ListView>
-      <Text fill="WHITE" layoutX="1090.0" layoutY="59.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Cola de procesos" />
+      <Text fill="WHITE" layoutX="1112.0" layoutY="32.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Escritorio" />
+      <Polygon fill="#1f93ffe7" layoutX="1220.0" layoutY="393.0" points="-50.0, 40.0, -178.0, -31.0, -10.0, -31.0" stroke="TRANSPARENT" strokeType="INSIDE">
+         <effect>
+            <BoxBlur width="32.32" />
+         </effect>
+      </Polygon>
+      <ListView fx:id="colaDePrioridad" layoutX="897.0" layoutY="379.0" prefHeight="295.0" prefWidth="296.0" />
+      <Text fill="WHITE" layoutX="1091.0" layoutY="375.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Cola de procesos" />
     </children>
    <effect>
       <DropShadow />
