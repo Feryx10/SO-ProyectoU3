@@ -17,6 +17,7 @@
 package swapping;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  *
@@ -31,9 +32,10 @@ public class Simulacion {
     int tiempo = 0;
     int procesosTerminados = 0;
     ArrayList<Proceso> procesos = new ArrayList<Proceso>();
+    ArrayList<Proceso> listaDeProcesos = new ArrayList<Proceso>();
 
     public Simulacion() {
-        this.memoriaPrincipal = new Memoria(4096);
+        this.memoriaPrincipal = new Memoria(2048);
         this.memoriaRespaldo = new Memoria (4096);
         
     }
@@ -48,9 +50,58 @@ public class Simulacion {
                 {
                     memoriaPrincipal.removerProceso(memoriaPrincipal.getCluster(i).getProceso(0));
                 }
-            }
+            }           
         }
         this.tiempo++;
+    }
+    
+    public void simulacionCPU()
+    {
+        
+    }
+    
+    public void swapInFragmeto(Proceso proceso)
+    {
+        for (int i = 0; i < memoriaRespaldo.getTamanoMemoria(); i++) {
+            if(memoriaRespaldo.getCluster(i).getProceso(0).getID()==proceso.getID())
+            {
+                for (int j = 0; j < memoriaPrincipal.getTamanoMemoria(); j++) {
+                    if(memoriaPrincipal.getCluster(j).isEmpty())
+                    {
+                        memoriaPrincipal.getCluster(j).addProceso(proceso);
+                    }
+                    if(memoriaRespaldo.getCluster(j).getProceso(0).equals(proceso))
+                    {
+                        memoriaRespaldo.getCluster(j).limpiarCluster();
+                    }
+                }
+                return;
+            //    Proceso procesoNuevo = new Proceso (proceso.getID(), proceso.getNombrePrograma(), proceso.getTamañoFragmento(), proceso.getTiempo(), proceso.getPrioridad());
+            }
+            
+        }
+    }
+    
+        public void swapOutFragmeto(Proceso proceso)
+    {
+        for (int i = 0; i < memoriaPrincipal.getTamanoMemoria(); i++) {
+            if(memoriaPrincipal.getCluster(i).getProceso(0).getID()==proceso.getID())
+            {
+                for (int j = 0; j < memoriaRespaldo.getTamanoMemoria(); j++) {
+                    if(memoriaRespaldo.getCluster(j).isEmpty())
+                    {
+                        memoriaRespaldo.getCluster(j).addProceso(proceso);
+                    }
+                    if(memoriaPrincipal.getCluster(j).getProceso(0).equals(proceso))
+                    {
+                        memoriaPrincipal.getCluster(j).limpiarCluster();
+                    }
+                }
+                return;
+            //    Proceso procesoNuevo = new Proceso (proceso.getID(), proceso.getNombrePrograma(), proceso.getTamañoFragmento(), proceso.getTiempo(), proceso.getPrioridad());
+            }
+            
+        }
     }
     
     public void agregarProceso(Proceso proceso)

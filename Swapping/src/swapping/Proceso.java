@@ -158,6 +158,7 @@ public class Proceso {
     public void setTiempoLlevado(int tiempoLlevado) {
         this.tiempoLlevado = tiempoLlevado;
     }
-           
+      
+    
     
 }
