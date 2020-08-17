@@ -78,6 +78,16 @@ public class Simulacion {
         
     }
     
+    public void ordenarListaFIFO()
+    {
+        if(!listaDeProcesos.isEmpty())
+        {
+            Proceso proceso = listaDeProcesos.get(0);
+            listaDeProcesos.remove(0);
+            listaDeProcesos.add(proceso);
+        }
+        
+    }
     
     public void ordernarListaDeProcesosLFU() {
              
@@ -159,6 +169,7 @@ public class Simulacion {
             {
                 memoriaPrincipal.getCluster(i).getProceso(0).setUsos(memoriaPrincipal.getCluster(i).getProceso(0).getUsos()+1);
                 swapOutFragmeto(memoriaPrincipal.getCluster(i).getProceso(0));
+                this.tiempo++;
                 return;
             }
             
@@ -176,7 +187,7 @@ public class Simulacion {
         this.tiempo++;
     }
     
-    public void avanzarTiempoLFU()
+    public void avanzarTiempoSegundaEntrega()
     {
         for (int i = 0; i < memoriaPrincipal.getTamanoMemoria(); i++) {
             if(!memoriaPrincipal.getCluster(i).isEmpty())
@@ -185,6 +196,7 @@ public class Simulacion {
                     if(memoriaPrincipal.getCluster(i).getProceso(0).getNombrePrograma().equals(listaDeProcesos.get(j).getNombrePrograma())) {
                         listaDeProcesos.get(j).setUsos(listaDeProcesos.get(j).getUsos()+1);
                         swapOutFragmeto(memoriaPrincipal.getCluster(i).getProceso(0));
+                        this.tiempo++;
                         return;
                     }
                 }
