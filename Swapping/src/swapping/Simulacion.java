@@ -52,8 +52,8 @@ public class Simulacion {
         
         //obtenemos la prioridad mayor buscando el numero más pequeño
         for (Proceso p: desordenada) {
-            if (prioridad>p.getUsos()) {
-                prioridad = p.getUsos();   
+            if (prioridad>p.getPrioridad()) {
+                prioridad = p.getPrioridad();   
             }     
         }
         
@@ -61,7 +61,7 @@ public class Simulacion {
         int cont=0;
         while (cont<desordenada.size()) {
             for (int i=0; i<desordenada.size(); i++) {
-                if (prioridad==desordenada.get(i).getUsos()) {
+                if (prioridad==desordenada.get(i).getPrioridad()) {
                     ordenada.add(desordenada.get(i));
                 }       
             }
@@ -86,14 +86,14 @@ public class Simulacion {
         
         int prioridad = 9999;
         
-        //obtenemos la prioridad mayor buscando el numero más pequeño
+        //obtenemos el proceso con mayor numero de usos buscando el numero más pequeño
         for (Proceso p: desordenada) {
             if (prioridad>p.getUsos()) {
                 prioridad = p.getUsos();   
             }     
         }
         
-        //Ordenamos los elementos de la lista comparando su prioridad
+        //Ordenamos los elementos de la lista comparando su cantidad de usos
         int cont=0;
         while (cont<desordenada.size()) {
             for (int i=0; i<desordenada.size(); i++) {
@@ -114,19 +114,39 @@ public class Simulacion {
         
     }
     
-    public void FIFO() {
-
-        // Para remover el elemento a la cabeza del arreglo
-        this.listaDeProcesos.remove(0);
-
-        // To view the head of queue 
-        Proceso cabeza = this.listaDeProcesos.get(0); 
-        Proceso f = this.listaDeProcesos.get(this.listaDeProcesos.size()-1);
+    public void ordernarListaDeProcesosMFU() {
         
         
-        System.out.println("-----");
-        System.out.println("Primer elemento: " + cabeza.getNombrePrograma()); 
-        System.out.println("Último elemento: " + f.getNombrePrograma()); 
+        ArrayList<Proceso> desordenada = this.listaDeProcesos;
+        ArrayList<Proceso> ordenada = new ArrayList<>();
+        
+        int usos = -1;
+        
+        //obtenemos el proceso con menor numero de usos buscando el numero más pequeño
+        for (Proceso p: desordenada) {
+            if (usos<p.getUsos()) {
+                usos = p.getUsos();   
+            }     
+        }
+        
+        //Ordenamos los elementos de la lista comparando su cantidad de usos
+        int cont=0;
+        while (cont<desordenada.size()) {
+            for (int i=0; i<desordenada.size(); i++) {
+                if (usos==desordenada.get(i).getUsos()) {
+                    ordenada.add(desordenada.get(i));
+                }       
+            }
+            cont++;
+            usos--;
+        }
+        System.out.println("--------");
+        for (Proceso x: ordenada) {
+            System.out.println(x.getUsos());
+        }
+        System.out.println("--------");
+        
+        this.listaDeProcesos = ordenada;
   
     }
     
