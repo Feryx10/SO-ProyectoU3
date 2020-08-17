@@ -41,33 +41,28 @@ public class Simulacion {
     }
     
     public void ordernarListaDeProcesos() {
-        
-        Proceso z = new Proceso(21, "maincrah", 256, 10, 3);
-        this.listaDeProcesos.add(z);
-        z = new Proceso(24, "mdfs", 712, 10, 2);
-        this.listaDeProcesos.add(z);
-        z = new Proceso(11, "wowh", 512, 10, 1);
-        this.listaDeProcesos.add(z);
-        
-        
+             
         ArrayList<Proceso> desordenada = this.listaDeProcesos;
         ArrayList<Proceso> ordenada = new ArrayList<>();
         
-        int prioridad = -1;
+        int prioridad = 9999;
         
+        //obtenemos la prioridad mayor buscando el numero más pequeño
         for (Proceso p: desordenada) {
-            if (prioridad<p.getPrioridad()) {
+            if (prioridad>p.getPrioridad()) {
                 prioridad = p.getPrioridad();   
             }     
         }
         
-        while (prioridad>=0) {
-            for (int i=0; i<desordenada.size() && prioridad>=0; i++) {
+        int cont=0;
+        while (cont<desordenada.size()) {
+            for (int i=0; i<desordenada.size(); i++) {
                 if (prioridad==desordenada.get(i).getPrioridad()) {
                     ordenada.add(desordenada.get(i));
                 }       
             }
-            prioridad--;
+            cont++;
+            prioridad++;
         }
         
         for (Proceso x: ordenada) {
