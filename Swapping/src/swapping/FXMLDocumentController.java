@@ -99,7 +99,7 @@ public class FXMLDocumentController implements Initializable {
         Proceso aux8 = new Proceso(1,"Discord.exe",768,2,2);
         Proceso aux9 = new Proceso(1,"CiscoPacketTracer.exe",512,2,4);
         Proceso aux10 = new Proceso(1,"Spotify.exe",256,2,4);
-        Proceso aux11 = new Proceso(1,"GitKraken.exe",512,2,1);        
+        Proceso aux11 = new Proceso(1,"GitKraken.exe",512,2,1);
         
         simulacion.agregarProceso(aux2);
         simulacion.agregarProceso(aux3);
@@ -123,6 +123,7 @@ public class FXMLDocumentController implements Initializable {
     private void handleButtonActionTiempo(ActionEvent event) {
         simulacion.avanzarTiempo();
         this.timer.setText("Timer: "+ simulacion.getTiempo() +" segundos.");
+        simulacion.ordernarListaDeProcesos();
         simulacion.verificarPrioridad();
         this.refrescar();
     }

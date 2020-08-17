@@ -18,6 +18,7 @@ package swapping;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Random;
 
 /**
  *
@@ -25,6 +26,7 @@ import java.util.Collections;
  */
 public class Simulacion {
     
+    Random random = new Random();
     boolean fragmentacionExterna;
     boolean fragmentacionInterna;
     Memoria memoriaPrincipal;
@@ -78,6 +80,8 @@ public class Simulacion {
         
     }
     
+    
+    
     public void avanzarTiempo()
     {
         for (int i = 0; i < memoriaPrincipal.getTamanoMemoria(); i++) {
@@ -88,21 +92,31 @@ public class Simulacion {
                 {
                     memoriaPrincipal.removerProceso(memoriaPrincipal.getCluster(i).getProceso(0));
                 }
-            }           
+            }
         }
         this.tiempo++;
     }
     
-    public void simulacionCPU()
+        public void simulacionCPU()
     {
-        
+        if(listaDeProcesos.size() >= 1)
+        {
+            ArrayList<Integer> iDs = new ArrayList<Integer>();
+            for (int i = 0; i < memoriaRespaldo.getTamanoMemoria(); i++) 
+            {
+                
+            }
+            
+            int tamaño = listaDeProcesos.get(0).getCantidadFragmentos();
+            int fragmento = random.nextInt(tamaño)+1;
+        }
     }
     
     public void verificarColaPrioridad()
     {
         
     }
-    
+        
     public void swapInFragmeto(Proceso proceso)
     {
         for (int i = 0; i < memoriaRespaldo.getTamanoMemoria(); i++) {
@@ -125,7 +139,7 @@ public class Simulacion {
         }
     }
     
-        public void swapOutFragmeto(Proceso proceso)
+        public void swapOutFragmeto(Proceso proceso, boolean nuevo)
     {
         for (int i = 0; i < memoriaPrincipal.getTamanoMemoria(); i++) {
             if(memoriaPrincipal.getCluster(i).getProceso(0).getID()==proceso.getID())
@@ -135,7 +149,7 @@ public class Simulacion {
                     {
                         memoriaRespaldo.getCluster(j).addProceso(proceso);
                     }
-                    if(memoriaPrincipal.getCluster(j).getProceso(0).equals(proceso))
+                    if(!nuevo && memoriaPrincipal.getCluster(j).getProceso(0).equals(proceso))
                     {
                         memoriaPrincipal.getCluster(j).limpiarCluster();
                     }
