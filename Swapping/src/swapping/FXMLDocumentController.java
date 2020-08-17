@@ -111,6 +111,9 @@ public class FXMLDocumentController implements Initializable {
         simulacion.agregarProceso(aux9);
         simulacion.agregarProceso(aux10);
         simulacion.agregarProceso(aux11);      
+        
+
+
 
     }
     
@@ -123,16 +126,21 @@ public class FXMLDocumentController implements Initializable {
     private void handleButtonActionTiempo(ActionEvent event) {
         simulacion.avanzarTiempo();
         this.timer.setText("Timer: "+ simulacion.getTiempo() +" segundos.");
+        simulacion.pedirFragmento();
         simulacion.ordernarListaDeProcesos();
-        simulacion.verificarPrioridad();
+     //   simulacion.verificarPrioridad();
         this.refrescar();
     }
     
     @FXML
     private void handleButtonActionSwapInWith(ActionEvent event) {
         if(auxiliarProcesoSeleccionado!=null)
-            simulacion.swapInConFragmentacionExterna(auxiliarProcesoSeleccionado, false);
-        simulacion.removerProceso(auxiliarProcesoSeleccionado);
+        {
+        //    simulacion.swapInConFragmentacionExterna(auxiliarProcesoSeleccionado, false); 
+            simulacion.swapInFragmeto(auxiliarProcesoSeleccionado);
+            simulacion.removerProceso(auxiliarProcesoSeleccionado); 
+        }
+    //    System.out.println("ASE");
         this.refrescar(); 
     }
     

@@ -27,13 +27,14 @@ public class Proceso {
     private final String nombrePrograma;
     private boolean completado;
     private boolean iniciado;
-    private int tamaño,tamañoFragmento, tiempo,tiempoLlevado, cantidadFragmentos, prioridad;    
+    private int tamaño,tamañoFragmento, tiempo,tiempoLlevado, cantidadFragmentos, prioridad, usos;    
     private Color color = Color.BLACK; 
 
     public Proceso(int ID, String nombrePrograma, int tamaño, int tiempo, int prioridad) {
         this.ID = ID;
         this.nombrePrograma = nombrePrograma;
         this.tamaño = tamaño;
+        this.usos = 0;
         this.tiempo = tiempo;
         this.tiempoLlevado = 0;
         this.completado = false;
@@ -157,6 +158,14 @@ public class Proceso {
 
     public void setTiempoLlevado(int tiempoLlevado) {
         this.tiempoLlevado = tiempoLlevado;
+    }
+
+    public int getUsos() {
+        return usos;
+    }
+
+    public void setUsos(int usos) {
+        this.usos = usos;
     }
       
     
