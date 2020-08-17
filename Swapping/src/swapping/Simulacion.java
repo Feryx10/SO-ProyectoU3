@@ -182,10 +182,11 @@ public class Simulacion {
             if(!memoriaPrincipal.getCluster(i).isEmpty())
             {
                 for (int j = 0; j < listaDeProcesos.size(); j++) {
-                    if(memoriaPrincipal.getCluster(i).getProceso(0).getNombrePrograma().equals(listaDeProcesos.get(j).getNombrePrograma()))
+                    if(memoriaPrincipal.getCluster(i).getProceso(0).getNombrePrograma().equals(listaDeProcesos.get(j).getNombrePrograma())) {
                         listaDeProcesos.get(j).setUsos(listaDeProcesos.get(j).getUsos()+1);
                         swapOutFragmeto(memoriaPrincipal.getCluster(i).getProceso(0));
                         return;
+                    }
                 }
               //  memoriaPrincipal.getCluster(i).getProceso(0).setUsos(memoriaPrincipal.getCluster(i).getProceso(0).getUsos()+1);
                 

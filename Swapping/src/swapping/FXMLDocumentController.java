@@ -126,7 +126,10 @@ public class FXMLDocumentController implements Initializable {
     private void handleButtonActionTiempo(ActionEvent event) {
         simulacion.avanzarTiempoLFU();
         this.timer.setText("Timer: "+ simulacion.getTiempo() +" segundos.");
-        simulacion.ordernarListaDeProcesosLFU();
+        
+        //simulacion.ordernarListaDeProcesosLFU(); 
+        
+        simulacion.ordernarListaDeProcesosMFU();
         this.refrescar();
         simulacion.pedirFragmento();
      //   simulacion.verificarPrioridad();
