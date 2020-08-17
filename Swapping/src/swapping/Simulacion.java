@@ -56,6 +56,7 @@ public class Simulacion {
             }     
         }
         
+        //Ordenamos los elementos de la lista comparando su prioridad
         int cont=0;
         while (cont<desordenada.size()) {
             for (int i=0; i<desordenada.size(); i++) {
@@ -74,6 +75,22 @@ public class Simulacion {
         
         this.listaDeProcesos = ordenada;
         
+    }
+    
+    public void FIFO() {
+
+        // Para remover el elemento a la cabeza del arreglo
+        this.listaDeProcesos.remove(0);
+
+        // To view the head of queue 
+        Proceso cabeza = this.listaDeProcesos.get(0); 
+        Proceso f = this.listaDeProcesos.get(this.listaDeProcesos.size()-1);
+        
+        
+        System.out.println("-----");
+        System.out.println("Primer elemento: " + cabeza.getNombrePrograma()); 
+        System.out.println("Último elemento: " + f.getNombrePrograma()); 
+  
     }
     
     
