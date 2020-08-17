@@ -16,6 +16,7 @@
  */
 package swapping;
 
+import static java.lang.System.exit;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
@@ -77,6 +78,42 @@ public class Simulacion {
         
     }
     
+    
+    public void ordernarListaDeProcesosLFU() {
+             
+        ArrayList<Proceso> desordenada = this.listaDeProcesos;
+        ArrayList<Proceso> ordenada = new ArrayList<>();
+        
+        int prioridad = 9999;
+        
+        //obtenemos la prioridad mayor buscando el numero más pequeño
+        for (Proceso p: desordenada) {
+            if (prioridad>p.getUsos()) {
+                prioridad = p.getUsos();   
+            }     
+        }
+        
+        //Ordenamos los elementos de la lista comparando su prioridad
+        int cont=0;
+        while (cont<desordenada.size()) {
+            for (int i=0; i<desordenada.size(); i++) {
+                if (prioridad==desordenada.get(i).getUsos()) {
+                    ordenada.add(desordenada.get(i));
+                }       
+            }
+            cont++;
+            prioridad++;
+        }
+        System.out.println("--------");
+        for (Proceso x: ordenada) {
+            System.out.println(x.getUsos());
+        }
+        System.out.println("--------");
+        
+        this.listaDeProcesos = ordenada;
+        
+    }
+    
     public void FIFO() {
 
         // Para remover el elemento a la cabeza del arreglo
@@ -102,6 +139,36 @@ public class Simulacion {
             {
                 memoriaPrincipal.getCluster(i).getProceso(0).setUsos(memoriaPrincipal.getCluster(i).getProceso(0).getUsos()+1);
                 swapOutFragmeto(memoriaPrincipal.getCluster(i).getProceso(0));
+                return;
+            }
+            
+        }
+  /*      for (int i = 0; i < memoriaPrincipal.getTamanoMemoria(); i++) {
+            if(!memoriaPrincipal.getCluster(i).isEmpty())
+            {
+                memoriaPrincipal.getCluster(i).getProceso(0).setTiempoLlevado(memoriaPrincipal.getCluster(i).getProceso(0).getTiempoLlevado()+1);
+                if(memoriaPrincipal.getCluster(i).getProceso(0).getTiempo()==memoriaPrincipal.getCluster(i).getProceso(0).getTiempoLlevado())
+                {
+                    memoriaPrincipal.removerProceso(memoriaPrincipal.getCluster(i).getProceso(0));
+                }
+            }
+        }*/
+        this.tiempo++;
+    }
+    
+    public void avanzarTiempoLFU()
+    {
+        for (int i = 0; i < memoriaPrincipal.getTamanoMemoria(); i++) {
+            if(!memoriaPrincipal.getCluster(i).isEmpty())
+            {
+                for (int j = 0; j < listaDeProcesos.size(); j++) {
+                    if(memoriaPrincipal.getCluster(i).getProceso(0).getNombrePrograma().equals(listaDeProcesos.get(j).getNombrePrograma()))
+                        listaDeProcesos.get(j).setUsos(listaDeProcesos.get(j).getUsos()+1);
+                        swapOutFragmeto(memoriaPrincipal.getCluster(i).getProceso(0));
+                        return;
+                }
+              //  memoriaPrincipal.getCluster(i).getProceso(0).setUsos(memoriaPrincipal.getCluster(i).getProceso(0).getUsos()+1);
+                
             }
             
         }
@@ -150,52 +217,64 @@ public class Simulacion {
     public void swapInFragmeto(Proceso proceso)
     {
         for (int i = 0; i < memoriaRespaldo.getTamanoMemoria(); i++) {
-            if(!memoriaRespaldo.getCluster(0).isEmpty() && memoriaRespaldo.getCluster(i).getProceso(0).getID()==proceso.getID())
+            if(!memoriaRespaldo.getCluster(i).isEmpty() && memoriaRespaldo.getCluster(i).getProceso(0).equals(proceso))
             {
-                boolean addListo = false;
-                boolean removeListo = false;
+                boolean addListo=false;
+                boolean emptyListo=false;
                 for (int j = 0; j < memoriaPrincipal.getTamanoMemoria(); j++) {
-                    if(!addListo && memoriaPrincipal.getCluster(j).isEmpty())
+                    if(memoriaPrincipal.getCluster(j).isEmpty())
                     {
                         memoriaPrincipal.getCluster(j).addProceso(proceso);
-                        addListo = true;
+                        break;
                     }
-                    if(!removeListo && memoriaRespaldo.getCluster(j).getProceso(0).equals(proceso))
+                }
+                for (int j = 0; j < memoriaRespaldo.getTamanoMemoria(); j++) {
+                    if(!memoriaRespaldo.getCluster(j).isEmpty() && memoriaRespaldo.getCluster(j).getProceso(0).equals(proceso))
                     {
                         memoriaRespaldo.getCluster(j).limpiarCluster();
-                        removeListo = true;
+                        break;
                     }
-                    if(addListo && removeListo)
-                        return;
                 }
                 return;
             //    Proceso procesoNuevo = new Proceso (proceso.getID(), proceso.getNombrePrograma(), proceso.getTamañoFragmento(), proceso.getTiempo(), proceso.getPrioridad());
             }
-            
         }
     }
     
-        public void swapOutFragmeto(Proceso proceso)
+    public void verificarCompleto(Proceso proceso)
+    {
+        for (int i = 0; i < memoriaRespaldo.getTamanoMemoria(); i++) {
+            if(!memoriaRespaldo.getCluster(i).isEmpty() && memoriaRespaldo.getCluster(i).getProceso(0).getNombrePrograma().equals(proceso.getNombrePrograma()))
+                return;
+        }
+        for (int i = 0; i < listaDeProcesos.size(); i++) {
+            if(listaDeProcesos.get(i).getNombrePrograma().equals(proceso.getNombrePrograma()))
+                listaDeProcesos.remove(i);
+        }
+        
+    }
+    
+    public void swapOutFragmeto(Proceso proceso)
     {
         for (int i = 0; i < memoriaPrincipal.getTamanoMemoria(); i++) {
-            if(!memoriaPrincipal.getCluster(0).isEmpty() && memoriaPrincipal.getCluster(i).getProceso(0).getID()==proceso.getID())
+            if(!memoriaPrincipal.getCluster(i).isEmpty() && memoriaPrincipal.getCluster(i).getProceso(0).getID()==proceso.getID())
             {
-                boolean addListo = false;
-                boolean removeListo = false;
-                for (int j = 0; j < memoriaRespaldo.getTamanoMemoria(); j++) {
-                    if(!addListo && memoriaRespaldo.getCluster(j).isEmpty())
+         /*       for (int j = 0; j < memoriaRespaldo.getTamanoMemoria(); j++) {
+                    if(memoriaRespaldo.getCluster(j).isEmpty())
                     {
                         memoriaRespaldo.getCluster(j).addProceso(proceso);
-                        addListo = true;
+                        break;
                     }
-                    if(!removeListo && memoriaPrincipal.getCluster(j).getProceso(0).equals(proceso))
+                }*/
+                for (int j = 0; j < memoriaPrincipal.getTamanoMemoria(); j++) {
+                    if(!memoriaPrincipal.getCluster(j).isEmpty() && memoriaPrincipal.getCluster(j).getProceso(0).equals(proceso))
                     {
                         memoriaPrincipal.getCluster(j).limpiarCluster();
-                        removeListo = true;
-                    }
-                    if(addListo && removeListo)
-                        return;
-                }
+                        break;
+                    } 
+                } 
+
+                verificarCompleto(proceso);
                 return;
             //    Proceso procesoNuevo = new Proceso (proceso.getID(), proceso.getNombrePrograma(), proceso.getTamañoFragmento(), proceso.getTiempo(), proceso.getPrioridad());
             }
