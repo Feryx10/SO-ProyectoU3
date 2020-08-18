@@ -89,7 +89,7 @@ public class Simulacion {
         
     }
     
-    public void ordernarListaDeProcesosLFU() {
+    public void ordernarListaDeProcesosMFU() {
              
         ArrayList<Proceso> desordenada = this.listaDeProcesos;
         ArrayList<Proceso> ordenada = new ArrayList<>();
@@ -124,11 +124,17 @@ public class Simulacion {
         
     }
     
-    public void ordernarListaDeProcesosMFU() {
+    public void ordernarListaDeProcesosLFU() {
         
         
         ArrayList<Proceso> desordenada = this.listaDeProcesos;
         ArrayList<Proceso> ordenada = new ArrayList<>();
+        
+        System.out.println("----Lista Inicial----");
+        for (Proceso x: desordenada) {
+            System.out.println(x.getUsos());
+        }
+        System.out.println("--------");
         
         int usos = -1;
         
@@ -136,21 +142,23 @@ public class Simulacion {
         for (Proceso p: desordenada) {
             if (usos<p.getUsos()) {
                 usos = p.getUsos();   
-            }     
+            }
         }
         
         //Ordenamos los elementos de la lista comparando su cantidad de usos
         int cont=0;
-        while (cont<desordenada.size()) {
+        while (cont<desordenada.size() || usos>=0) {
+            
             for (int i=0; i<desordenada.size(); i++) {
+                System.out.println("Usos: "+ usos+"Cont: "+cont+ " des.(i).usos: "+desordenada.get(i).getUsos() );
                 if (usos==desordenada.get(i).getUsos()) {
                     ordenada.add(desordenada.get(i));
-                }       
+                }
             }
             cont++;
             usos--;
         }
-        System.out.println("--------");
+        System.out.println("----Lista Final----");
         for (Proceso x: ordenada) {
             System.out.println(x.getUsos());
         }
@@ -282,7 +290,11 @@ public class Simulacion {
         }
         for (int i = 0; i < listaDeProcesos.size(); i++) {
             if(listaDeProcesos.get(i).getNombrePrograma().equals(proceso.getNombrePrograma()))
+            {
+                System.out.println(listaDeProcesos.get(i).getNombrePrograma());
                 listaDeProcesos.remove(i);
+                return;
+            }
         }
         
     }
